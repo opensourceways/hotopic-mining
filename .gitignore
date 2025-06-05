@@ -1,0 +1,29 @@
+# Python开发环境
+__pycache__/
+*.py[cod]
+*.so
+.Python
+venv/
+.env
+.env.example
+
+# 日志文件
+*.log
+
+# IDE文件
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# 忽略敏感信息和配置文件
+config.py
+secret.txt
+
+# 忽略文档和报告文件
+docs/
+reports/
+
+# 忽略测试相关的文件和目录
+tests/
+test_*.py
