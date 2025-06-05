@@ -3,7 +3,7 @@ import openai
 import numpy as np
 from tqdm import tqdm
 from typing import List, Mapping, Any
-from bertopic.backend import BaseEmbedder
+from hotopic.backend import BaseEmbedder
 
 
 class OpenAIBackend(BaseEmbedder):

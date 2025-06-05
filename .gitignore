@@ -24,6 +24,3 @@ secret.txt
 docs/
 reports/
 
-# 忽略测试相关的文件和目录
-tests/
-test_*.py
