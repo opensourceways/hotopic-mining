@@ -1,9 +1,11 @@
 from hotopic.backend import OpenAIBackend
-import pytest
 import openai
+import pytest
 
+@pytest.mark.skip(reason="需要指定真实的API_KEY")
 def test_openai_backend():
     # 运行测试用例: python -m pytest
+    # 需要填真实的 API Key 和 Base URL
     API_KEY = "sk-xxxxx"
     BASE_URL = "https://api.siliconflow.cn/v1"
     # EMBEDDING_MODLE = "BAAI/bge-m3"
