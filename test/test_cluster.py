@@ -7,9 +7,10 @@ def load_input_data(mock_path):
         graph_data = json.load(graph_file)
     return graph_data
 
+@pytest.mark.skip(reason="需要修改配置文件config.ini为真实的API_KEY")
 def test_first_cluster():
     cluster = Cluster()
-    input_data = load_input_data("test/mock_data/data_0606.json")
+    input_data = load_input_data("test/mock_data/first_data.json")
     cluster.load_input_data(input_data)
     cluster.run()
     res = cluster.get_clustered_discuss()
