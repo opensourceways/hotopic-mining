@@ -3,9 +3,25 @@ import time
 import threading
 from datetime import datetime
 from hotopic.utils import MyLogger
+from hotopic.cluster import Cluster
 
 logger = MyLogger()
 logger.configure("INFO")
+
+def hotopic_mining_pipeline():
+    """
+    热帖挖掘主流程
+    """
+    # 1. 数据获取，包括存量数据、增量数据与已发布的话题数据
+    # 2. 数据整理，历史数据合并
+    # 3. 文本向量化，将文本转换为向量表示
+    # 4. 相似度计算，计算向量之间的相似度
+    # 5. 图算法生成，根据相似度构建图结构
+    # 6. 话题生成，根据图的联通性生成话题描述
+    cluster = Cluster()
+    input_data = []
+    cluster.load_input_data(input_data)
+    cluster.run()
 
 def hotopic_run_job():
     """周五凌晨执行的任务"""

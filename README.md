@@ -6,6 +6,7 @@
 ### 测试用例本地执行
 
 * 执行命令: `python -m pytest`
+* 指定某个测试用例执行: `python -m pytest -vs test/test_cluster.py`
 
 ### 本地执行 main 函数
 
