@@ -67,10 +67,25 @@ class DiscussData:
     
     def get_title(self):
         return self._title
+    
+    def get_url(self):
+        return self._url
+    
+    def get_created_at(self):
+        return self._created_at
+    
+    def get_source_type(self):
+        return self._source_type
+    
+    def get_source_id(self):
+        return self._source_id
 
     def get_cleaned_content(self):
         content = f"- title: {self._title}\n- abstract: {self._cleaned_data}"
         return content[:768]
+    
+    def get_content(self):
+        return self._cleaned_data[:1024]
 
 def cosine_distance(a, b):
     dot_product = np.dot(a, b)
