@@ -1,8 +1,13 @@
 from hotopic.backend import OpenAIBackend
 import openai
 import pytest
+try:
+    from conftest import should_skip_unless_run_flag
+except ImportError:
+    print("Warning: conftest.should_skip_unless_run_flag not found, direct logic might be brittle.")
+    pass # 保持使用导入版本的逻辑
 
-@pytest.mark.skip(reason="需要指定真实的API_KEY")
+@pytest.mark.skipif(should_skip_unless_run_flag(True), reason="需要指定真实的API_KEY")
 def test_openai_backend():
     # 运行测试用例: python -m pytest
     # 需要填真实的 API Key 和 Base URL

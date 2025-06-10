@@ -207,7 +207,7 @@ class Summary:
         self.summarize_clustered_topics()
         logger.info("话题摘要生成完成。")
         # 话题排序单独调试
-        # self.reranker_clustered_topics()
+        self.reranker_clustered_topics()
         res = self.merge_published_and_clustered_topics()
         # logger.info(f"merge topics: {res}")
         return res
