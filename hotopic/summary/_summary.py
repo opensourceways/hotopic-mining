@@ -16,6 +16,7 @@ class Summary:
     _reranker_prompt = None
     _base_url = None
     _llm_model = None
+    _rerank_llm_model = None
     _api_key = None
     def __init__(self):
         self._published_topics = {}
@@ -24,11 +25,12 @@ class Summary:
             plain_config_path="config.yaml",
             sensitive_config_path="config.ini"
         )
-        self._base_url = config_manager.get_sensitive('llm', 'api-key')
+        self._base_url = config_manager.get_plain('llm', 'base_url')
         self._llm_model = config_manager.get_plain('llm', 'model_name')
-        self._api_key = config_manager.get_plain('llm', 'base_url')
+        self._rerank_llm_model = config_manager.get_plain('llm', 'rerank_model_name')
+        self._api_key = config_manager.get_sensitive('llm', 'api-key')
         self._summary_prompt = config_manager.get_plain('llm', 'summary_prompt')    
-        self._reranker_prompt = config_manager.get_plain('llm','reranker_prompt')
+        self._reranker_prompt = config_manager.get_plain('llm','reranker_prompt')    
 
 
     def decode_topics(self, discuss_list):
@@ -57,6 +59,7 @@ class Summary:
                         "created_at": discuss.get_created_at(),
                         "source_type": discuss.get_source_type(),
                         "source_id": discuss.get_source_id(),
+                        "source_closed": discuss.get_source_closed(),
                         "cosine": float(0.0), # round(float(cosine), 3) 保留3位小数
                         "content": discuss.get_content(), # 这个是完整内容，用于生成摘要
                     }
@@ -78,15 +81,16 @@ class Summary:
         if clustered_list:
             self._clustered_topics = self.decode_topics(clustered_list)
 
-    def llm_summarize(self, content, system_prompt=None):
+    def llm_summarize(self, content, model_name="deepseek-ai/DeepSeek-R1", system_prompt=None):
         """Use LLM to summarize the topic."""
         # Placeholder for LLM summarization logic
         # This should call an LLM API to generate a summary based on topic_info
         
         start_time = time.time()
-        model_name = self._llm_model
         openai_api_key = self._api_key
         openai_api_base = self._base_url
+        # logger.info(f"Using model: {model_name}, api_key: {openai_api_key}, base_url: {openai_api_base}")
+        # logger.info(f"system_prompt: {system_prompt}")
         client = OpenAI(
             api_key=openai_api_key,
             base_url=openai_api_base,
@@ -108,7 +112,7 @@ class Summary:
         """Summarize topics using a summarizer."""
         with tqdm(self._clustered_topics.items(), desc="📊 处理进度", unit="topic", bar_format="{l_bar}{bar:20}{r_bar}") as pbar:
             for topic, contents in pbar:
-                logger.info(f"topic id: {topic}, cluster size: {len(contents)}, titles:")
+                logger.info(f"\ntopic id: {topic}, cluster size: {len(contents)}, titles:")
                 content_titles = ""
                 content_block = ""
                 for content in contents["discussion"]:
@@ -120,7 +124,7 @@ class Summary:
                 标题：{content_titles}
                 内容：{content_block}
                 """
-                llm_summary_result = self.llm_summarize(content, system_prompt=self._summary_prompt)
+                llm_summary_result = self.llm_summarize(content, model_name=self._llm_model, system_prompt=self._summary_prompt)
                 logger.info(f"topic id: {topic} summary: {llm_summary_result}")
                 if '<summary>' in llm_summary_result:
                     summary = llm_summary_result.split('<summary>')[1].split('</summary>')[0].strip()
@@ -141,11 +145,18 @@ class Summary:
                 discussion_text += f"{i+1}. {doc['title']}\n"
             tmp_texts += discussion_text
             tmp_texts += "\n"
-        llm_rerank_result = self.llm_summarize(tmp_texts, system_prompt=self._reranker_prompt)
+    
+        # logger.info(f"Reranking llm input: {tmp_texts}\n")
+        llm_rerank_result = self.llm_summarize(tmp_texts, model_name=self._rerank_llm_model,
+                                               system_prompt=self._reranker_prompt)
+        logger.info(f"Reranked Content: {llm_rerank_result}\n")
         if "<reranker>" in llm_rerank_result:
             llm_rerank_result = llm_rerank_result.split("<reranker>")[1].split("</reranker>")[0]
-        logger.info(f"Reranked Content: {llm_rerank_result}\n")
-        reranked_content = json.loads(llm_rerank_result)
+        try:
+            reranked_content = json.loads(llm_rerank_result)
+        except json.JSONDecodeError as e:
+            logger.error(f"JSON解码错误: {e}")
+            return
         new_reranked_content = {}
         new_index = 0
         for _, item in enumerate(reranked_content):
@@ -195,6 +206,8 @@ class Summary:
         self.add_topics_from_discuss_list(published_list, clustered_list)
         self.summarize_clustered_topics()
         logger.info("话题摘要生成完成。")
-        self.reranker_clustered_topics()
+        # 话题排序单独调试
+        # self.reranker_clustered_topics()
         res = self.merge_published_and_clustered_topics()
-        logger.info(f"merge topics: {res}")
+        # logger.info(f"merge topics: {res}")
+        return res
