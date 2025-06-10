@@ -37,11 +37,12 @@ class Cluster:
                 title=discuss.get('title'),
                 body=discuss.get('body'),
                 url=discuss.get('url'),
-                cleaned_data=discuss.get('cleaned_data', ''),
+                cleaned_data=discuss.get('clean_data', ''),
                 created_at=discuss.get('created_at'),
                 topic_summary=discuss.get('topic_summary', ''),
                 source_type=discuss.get('source_type', 'unknown'),
-                source_id=discuss.get('source_id', '')
+                source_id=discuss.get('source_id', ''),
+                source_closed=discuss.get('source_closed', False)
             )
             if discuss_data.get_id() is None:
                 logger.warning(f"讨论数据缺少ID: {discuss}")
@@ -217,10 +218,10 @@ class Cluster:
     def run(self):
         self.try_append_topic()
         self.graph_cluster(threshold=0.75)
-        summary = Summary()
-        summary.summarize_pipeline(
-            self._published_discuss_list, self._clustered_discuss_list
-        )
+        # summary = Summary()
+        # summary.summarize_pipeline(
+        #     self._published_discuss_list, self._clustered_discuss_list
+        # )
 
     def get_clustered_discuss(self):
         """获取聚类后的讨论列表"""

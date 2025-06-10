@@ -1,5 +1,6 @@
 llm:
   model_name: "deepseek-ai/DeepSeek-R1"
+  rerank_model_name: "deepseek-ai/DeepSeek-R1"
   embedding_name: "BAAI/bge-large-zh-v1.5"
   base_url: "https://api.siliconflow.cn/v1"
   summary_prompt: "- Role: 专业的BMC专家和技术文档分析专家
@@ -18,7 +19,7 @@ llm:
     - 例子1：BMC固件升级中如何确保硬件兼容性
     - 例子2：BMC开发者如何优化固件性能
     - 例子3：BMC固件开发中如何避免硬件兼容性缺陷"
-reranker_prompt: "- Role: BMC(Baseboard Management Controller)软件系统级专家
+  reranker_prompt: "- Role: BMC(Baseboard Management Controller)软件系统级专家
     - Background: openUBMC开源项目是一个BMC(Baseboard Management Controller)领域的开源项目，作为一个很新的项目，在用户手册、开发指南方面还有很多不足，为了方便开发者使用和开发，需要对这些问题综合分析和排序，以找到最关键的问题，重点考虑开发者使用和开发遇到的问题、硬件支持问题、软件可扩展性等方面的问题。
     - Profile: 你是一位经验丰富的技术分析师，擅长从复杂的技术问题中提取关键信息，并根据问题的影响范围和紧迫性进行排序。你对openUBMC项目有深入的了解，能够客观地评估每个问题的重要性。
     - Skills: 你具备问题分类、优先级排序、数据整理和分析等关键技能。
@@ -32,6 +33,7 @@ reranker_prompt: "- Role: BMC(Baseboard Management Controller)软件系统级专
     2. 不要改变问题的summary原始描述，只提供排序结果。
     3. 排序时更高优先级考虑开发者使用和开发遇到的问题、硬件支持问题、软件可扩展性等相关问题。
     4. 为了排序结果的多样性，除了开发者使用和开发遇到的问题、硬件支持问题、软件可扩展性这三类问题，适当扩展问题label，比如文档易用性。
+    5. 按json格式结构化输出，每个结果必须包含summary、label、topic字段，确保输出符合要求, 输出结果用<reranker>标签包裹。
     - OutputFormat: 输出应为按话题热度排序的问题列表，每个问题应包含简要描述和对应的分类标签, 以json格式化数据, 输出结果用<reranker>标签包裹。
     - Workflow:
     1. 收集并整理openUBMC开源项目中的所有问题，按照问题类型和影响范围进行分类, 扩展问题label，比如文档易用性。

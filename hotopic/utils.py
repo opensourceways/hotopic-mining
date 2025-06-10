@@ -3,6 +3,7 @@ import numpy as np
 from hotopic.backend import OpenAIBackend
 from hotopic.config import SecureConfigManager
 import openai
+from datetime import datetime
 
 class MyLogger:
     def __init__(self):
@@ -43,8 +44,9 @@ class DiscussData:
     _topic_summary = None
     _source_type = None
     _source_id = None
-    def __init__(self, id, title, body, url, cleaned_data,
-                 created_at, topic_summary, source_type, source_id):
+    _source_closed = False
+    def __init__(self, id, title, body, url, cleaned_data, created_at,
+                 topic_summary, source_type, source_id, source_closed=False):
         self._id = id
         self._title = title
         self._body = body
@@ -55,6 +57,7 @@ class DiscussData:
         self._topic_summary = topic_summary
         self._source_type = source_type
         self._source_id = source_id
+        self._source_closed = source_closed
     
     def get_summary(self):
         return self._topic_summary
@@ -79,6 +82,9 @@ class DiscussData:
     
     def get_source_id(self):
         return self._source_id
+    
+    def get_source_closed(self):
+        return self._source_closed
 
     def get_cleaned_content(self):
         content = f"- title: {self._title}\n- abstract: {self._cleaned_data}"
@@ -86,6 +92,27 @@ class DiscussData:
     
     def get_content(self):
         return self._cleaned_data[:1024]
+    
+    def to_dict(self):
+        """返回对象的字典表示，用于JSON序列化。"""
+        created_at_str = self._created_at
+        # 如果 _created_at 是 datetime 对象，转换为 ISO 格式字符串
+        if isinstance(self._created_at, datetime):
+            created_at_str = self._created_at.isoformat()
+        # 如果 _created_at 已经是字符串或 None，则直接使用
+
+        return {
+            "id": self._id,
+            "title": self._title,
+            "body": self._body,
+            "url": self._url,
+            "clean_data": self._cleaned_data,
+            "created_at": created_at_str, 
+            "topic_summary": self._topic_summary,
+            "source_type": self._source_type,
+            "source_id": self._source_id,
+            "source_closed": self._source_closed
+        }
 
 def cosine_distance(a, b):
     dot_product = np.dot(a, b)

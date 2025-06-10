@@ -283,7 +283,8 @@
     "clean_data": "openUBMC 25 1 0新增PCIE Status传感器定制功能 0 3人月 ，适用于BMC开发、测试、运维及网管人员。",
     "topic_summary": "",
     "source_type": "issue",
-    "source_id": "3152378"
+    "source_id": "3152378",
+    "source_closed": true
   },
   {
     "id": "3152383",
@@ -452,7 +453,8 @@
     "clean_data": "支持文件安全函数成功 失败返回值判断 非零 失败    描述：修改文件安全函数调用逻辑，开发人员根据返回值是否为0判断操作结果，强化BMC运行时的错误处理完整性。   关联：openUBMC25 06版本需适配此标准返回值校验机制。",
     "topic_summary": "",
     "source_type": "issue",
-    "source_id": "3152859"
+    "source_id": "3152859",
+    "source_closed": true
   },
   {
     "id": "3152865",
@@ -959,7 +961,8 @@
     "clean_data": "V3 BIOS升级SPI总线切换需在board info yml中配置spi bus字段，并绑定目标总线号。无需XML或CPLD寄存器操作。",
     "topic_summary": "",
     "source_type": "forum",
-    "source_id": 1246
+    "source_id": 1246,
+    "source_closed": false
   },
   {
     "id": 1213,
