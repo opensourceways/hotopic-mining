@@ -2,6 +2,7 @@ import pandas as pd
 import json
 import networkx as nx
 from hotopic.utils import *
+from hotopic.summary import Summary
 
 logger = MyLogger()
 # logger.configure("WARNING")
@@ -216,6 +217,10 @@ class Cluster:
     def run(self):
         self.try_append_topic()
         self.graph_cluster(threshold=0.75)
+        summary = Summary()
+        summary.summarize_pipeline(
+            self._published_discuss_list, self._clustered_discuss_list
+        )
 
     def get_clustered_discuss(self):
         """获取聚类后的讨论列表"""
@@ -226,6 +231,4 @@ class Cluster:
                 result_map[cluster_id] = []
             result_map[cluster_id].append(discuss)
         return result_map
-
-
-    
+  
