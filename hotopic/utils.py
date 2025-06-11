@@ -37,7 +37,6 @@ class MyLogger:
 class DiscussData:
     _id = None
     _title = None
-    _body = None
     _url = None
     _cleaned_data = None
     _created_at = None
@@ -45,11 +44,12 @@ class DiscussData:
     _source_type = None
     _source_id = None
     _source_closed = False
-    def __init__(self, id, title, body, url, cleaned_data, created_at,
+    _similarity = None
+    _closed_similarity = None
+    def __init__(self, id, title, url, cleaned_data, created_at,
                  topic_summary, source_type, source_id, source_closed=False):
         self._id = id
         self._title = title
-        self._body = body
         self._url = url
         self._cleaned_data = cleaned_data
         self._created_at = created_at
@@ -58,6 +58,8 @@ class DiscussData:
         self._source_type = source_type
         self._source_id = source_id
         self._source_closed = source_closed
+        self._similarity = 0.0
+        self._closed_similarity = 0.0
     
     def get_summary(self):
         return self._topic_summary
@@ -93,6 +95,22 @@ class DiscussData:
     def get_content(self):
         return self._cleaned_data[:1024]
     
+    def set_similarity(self, similarity):
+        """设置相似度"""
+        self._similarity = similarity
+
+    def get_similarity(self):
+        """获取相似度"""
+        return self._similarity
+    
+    def set_closed_similarity(self, similarity):
+        """设置关闭相似度"""
+        self._closed_similarity = similarity
+
+    def get_closed_similarity(self):
+        """获取关闭相似度"""
+        return self._closed_similarity
+    
     def to_dict(self):
         """返回对象的字典表示，用于JSON序列化。"""
         created_at_str = self._created_at
@@ -104,14 +122,15 @@ class DiscussData:
         return {
             "id": self._id,
             "title": self._title,
-            "body": self._body,
             "url": self._url,
             "clean_data": self._cleaned_data,
             "created_at": created_at_str, 
             "topic_summary": self._topic_summary,
             "source_type": self._source_type,
             "source_id": self._source_id,
-            "source_closed": self._source_closed
+            "source_closed": self._source_closed,
+            "cosine": self._similarity,
+            "closed_cosine": self._closed_similarity
         }
 
 def cosine_distance(a, b):
@@ -134,3 +153,29 @@ def get_embedding_model():
         raise ValueError("Embedding model name is not configured in config.yaml")
     embedding_model = OpenAIBackend(client, model_name, batch_size=32)
     return embedding_model
+
+def decode_topics(discuss_list, using_embedding=False):
+    """Decode topics from discuss list using a mapping."""
+    topic_clusters = {}
+    for discuss in discuss_list:
+        topic_summary = discuss.get_summary()
+        if topic_summary not in topic_clusters:
+            topic_clusters[topic_summary] = []
+        topic_clusters[topic_summary].append(discuss)
+
+    topic_id = 0
+    topics_map = {}
+    for summary, cluster in topic_clusters.items():
+        if summary is None or summary.strip() == "":
+            continue
+        topic = str(topic_id)
+        # 按 created_at 降序排序
+        cluster.sort(key=lambda item: item.get_created_at(), reverse=True)
+        topics_map[topic] = {
+            "summary": summary,
+            "discussion_count": len(cluster),
+            "discussion": cluster
+        }
+        topic_id += 1
+
+    return topics_map
