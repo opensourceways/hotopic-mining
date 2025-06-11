@@ -1,0 +1,329 @@
+{
+    "0": {
+        "summary": "BMC开发者如何实现Web UI的硬盘槽位总数实时显示功能",
+        "discussion_count": 2,
+        "discussion": [
+            [
+                {
+                    "id": "3152621",
+                    "title": "支持web页面显示可插硬盘的槽位总数",
+                    "url": "",
+                    "clean_data": "支持WEB UI首页实时显示可插硬盘槽位总数功能",
+                    "created_at": "2025-06-03 15:22:12",
+                    "topic_summary": "cluster-1",
+                    "source_type": "issue",
+                    "source_id": "3152621",
+                    "source_closed": false,
+                    "cosine": 0.73,
+                    "closed_cosine": 0.0
+                },
+                {
+                    "id": "3148908",
+                    "title": "【需求】支持新浪定制化页面显示可插硬盘的槽位总数",
+                    "url": "",
+                    "clean_data": "需求：新浪定制化页面显示硬盘可插槽位总数功能 1  新增硬盘槽位总数属性至BMC存储管理节点 2  前端Words实现槽位总数参数解析上报 3  WEB UI首页集成槽位总数展示模块",
+                    "created_at": "2025-05-30 09:11:55",
+                    "topic_summary": "cluster-1",
+                    "source_type": "issue",
+                    "source_id": "3148908",
+                    "source_closed": false,
+                    "cosine": 0.647,
+                    "closed_cosine": 0.0
+                }
+            ]
+        ],
+        "label": "开发者使用"
+    },
+    "1": {
+        "summary": "BMC开发者如何实现Web界面实时查询升级状态及生效状态",
+        "discussion_count": 2,
+        "discussion": [
+            [
+                {
+                    "id": "3150879",
+                    "title": "【需求】web界面查询升级状态及生效状态信息",
+                    "url": "",
+                    "clean_data": "需求描述 系统管理员通过web界面实时查看BMC升级状态和配置生效状态，支持运维场景下升级进度监控及异常状态反馈。",
+                    "created_at": "2025-06-01 15:58:59",
+                    "topic_summary": "cluster-2",
+                    "source_type": "issue",
+                    "source_id": "3150879",
+                    "source_closed": false,
+                    "cosine": 0.839,
+                    "closed_cosine": 0.0
+                },
+                {
+                    "id": "3153763",
+                    "title": "【需求】web界面查询升级状态及生效状态信息",
+                    "url": "",
+                    "clean_data": "Web界面需支持查询升级状态和生效状态信息。",
+                    "created_at": "2025-06-04 21:58:37",
+                    "topic_summary": "cluster-2",
+                    "source_type": "issue",
+                    "source_id": "3153763",
+                    "source_closed": false,
+                    "cosine": 0.704,
+                    "closed_cosine": 0.0
+                }
+            ]
+        ],
+        "label": "开发者使用"
+    },
+    "2": {
+        "summary": "BMC开发者如何实现电源优选策略的Web界面实时展示与权限控制",
+        "discussion_count": 2,
+        "discussion": [
+            [
+                {
+                    "id": "3151771",
+                    "title": "支持web界面显示优选电源工作模式及主用电源列表",
+                    "url": "",
+                    "clean_data": "支持在Web界面实时展示BMC电源管理模块的 Preferred Power Mode 和 Active Power List 状态，需通过BMC接口实现数据动态获取，并集成权限控制确保运维人员可见。",
+                    "created_at": "2025-06-02 14:14:37",
+                    "topic_summary": "cluster-3",
+                    "source_type": "issue",
+                    "source_id": "3151771",
+                    "source_closed": false,
+                    "cosine": 0.718,
+                    "closed_cosine": 0.0
+                },
+                {
+                    "id": "3152605",
+                    "title": "【需求】【PowerStrategy】支持Web界面提示优选主用电源",
+                    "url": "",
+                    "clean_data": "iBMC300 5 10 0  PowerStrategy模块新增Web界面主用电源优选策略提示功能，同步优化电源设置页 准备供电 状态描述。",
+                    "created_at": "2025-06-03 14:58:52",
+                    "topic_summary": "cluster-3",
+                    "source_type": "issue",
+                    "source_id": "3152605",
+                    "source_closed": false,
+                    "cosine": 0.611,
+                    "closed_cosine": 0.0
+                }
+            ]
+        ],
+        "label": "开发者使用"
+    },
+    "3": {
+        "summary": "BMC开发者如何通过Redfish/IPMI接口实现硬盘日志收集的自动控制",
+        "discussion_count": 2,
+        "discussion": [
+            [
+                {
+                    "id": "3153357",
+                    "title": "【需求】硬盘诊断功能控制",
+                    "url": "",
+                    "clean_data": "硬盘日志收集控制功能：运维人员通过Redfish IPMI 定制接口，设置硬盘自动日志收集开关、收集周期参数及手动触发日志收集操作。功能需在BMC正常运行前提下实现。",
+                    "created_at": "2025-06-04 12:02:43",
+                    "topic_summary": "cluster-6",
+                    "source_type": "issue",
+                    "source_id": "3153357",
+                    "source_closed": false,
+                    "cosine": 0.751,
+                    "closed_cosine": 0.0
+                },
+                {
+                    "id": "3153350",
+                    "title": "【需求】支持硬盘诊断功能控制",
+                    "url": "",
+                    "clean_data": "通过Redfish接口、IPMI命令及装备定制化接口实现硬盘日志收集的自动开启、周期设置及手动触发功能。   注：原文中 所属版本  周边依赖 等字段信息缺失， 通过   实现    的实现方式与标题核心需求直接关联，符合社区开发者关注的技术实现需求",
+                    "created_at": "2025-06-04 11:50:49",
+                    "topic_summary": "cluster-6",
+                    "source_type": "issue",
+                    "source_id": "3153350",
+                    "source_closed": false,
+                    "cosine": 0.698,
+                    "closed_cosine": 0.0
+                }
+            ]
+        ],
+        "label": "开发者使用"
+    },
+    "4": {
+        "summary": "BMC开发者如何确保OSLinkStatus属性在复位后自动清零？",
+        "discussion_count": 2,
+        "discussion": [
+            [
+                {
+                    "id": "3153754",
+                    "title": "NetworkPort接口增加属性OSLinkStatus",
+                    "url": "",
+                    "clean_data": "NetworkPort新增OSLinkStatus属性，支持上下电 复位后属性自动清零。",
+                    "created_at": "2025-06-04 21:30:19",
+                    "topic_summary": "cluster-8",
+                    "source_type": "issue",
+                    "source_id": "3153754",
+                    "source_closed": false,
+                    "cosine": 0.619,
+                    "closed_cosine": 0.0
+                },
+                {
+                    "id": 1240,
+                    "title": "【已评审】NetworkPort接口增加属性OSLinkStatus",
+                    "url": "https://discuss.openubmc.cn//t/topic/1240/1",
+                    "clean_data": "path     bmc kepler Systems  SystemId NetworkAdapters    interface    bmc kepler Systems NetworkPort   新增只读string类型属性 OSLinkStatus，默认空字符串，用于记录BMA上报的IB卡实时连接状态 Sleep Polling Disabled等 ，替换原有    的默认显示逻辑，支持带内状态采集的完整性。该属性不持久化存储，读取权限ReadOnly。   关联评审结论：已在所述接口路径下通过评审新增OSLinkStatus扩展属性。",
+                    "created_at": "2025-06-04 13:30:57",
+                    "topic_summary": "cluster-8",
+                    "source_type": "forum",
+                    "source_id": 1240,
+                    "source_closed": false,
+                    "cosine": 0.566,
+                    "closed_cosine": 0.0
+                }
+            ]
+        ],
+        "label": "开发者使用"
+    },
+    "5": {
+        "summary": "BMC开发者需解决CoolingRequirement私有SensorName属性未上树致北向接口无法引用问题",
+        "discussion_count": 2,
+        "discussion": [
+            [
+                {
+                    "id": "3151841",
+                    "title": "bmc.kepler.Systems.CoolingRequirement下私有属性SensorName上树",
+                    "url": "",
+                    "clean_data": "bmc kepler Systems CoolingRequirement的私有属性SensorName未上树，致北向接口无法直接引用。需将该属性上树以支持查询调速策略名称。",
+                    "created_at": "2025-06-02 17:14:03",
+                    "topic_summary": "cluster-4",
+                    "source_type": "issue",
+                    "source_id": "3151841",
+                    "source_closed": false,
+                    "cosine": 0.778,
+                    "closed_cosine": 0.0
+                },
+                {
+                    "id": "3151828",
+                    "title": "<thermal_mgmt> bmc.kepler.Systems.CoolingRequirement下私有属性SensorName上树",
+                    "url": "",
+                    "clean_data": "bmc kepler Systems CoolingRequirement私有SensorName属性未上树，北向接口无法查询调速策略名称",
+                    "created_at": "2025-06-02 16:45:54",
+                    "topic_summary": "cluster-4",
+                    "source_type": "issue",
+                    "source_id": "3151828",
+                    "source_closed": false,
+                    "cosine": 0.778,
+                    "closed_cosine": 0.0
+                }
+            ]
+        ],
+        "label": "软件可扩展性"
+    },
+    "6": {
+        "summary": "BMC开发者如何高效实现CPU及PCIE状态传感器的定制开发？",
+        "discussion_count": 2,
+        "discussion": [
+            [
+                {
+                    "id": "3152378",
+                    "title": "【需求】支持定制PCIE_Status传感器",
+                    "url": "",
+                    "clean_data": "openUBMC 25 1 0新增PCIE Status传感器定制功能 0 3人月 ，适用于BMC开发、测试、运维及网管人员。",
+                    "created_at": "2025-06-03 10:49:17",
+                    "topic_summary": "cluster-5",
+                    "source_type": "issue",
+                    "source_id": "3152378",
+                    "source_closed": true,
+                    "cosine": 0.748,
+                    "closed_cosine": 0.0
+                },
+                {
+                    "id": "3152383",
+                    "title": "【需求】支持CPUx_Status定制传感器",
+                    "url": "",
+                    "clean_data": "新增openUBMC 25 1 0版本CPU状态传感器 CPUx Status 支持，其中x为从0起始的CPU编号，适用于开发 测试 运维场景。",
+                    "created_at": "2025-06-03 10:54:15",
+                    "topic_summary": "cluster-5",
+                    "source_type": "issue",
+                    "source_id": "3152383",
+                    "source_closed": false,
+                    "cosine": 0.641,
+                    "closed_cosine": 0.0
+                }
+            ]
+        ],
+        "label": "软件可扩展性"
+    },
+    "7": {
+        "summary": "BMC开发者如何解决沙箱进程服务管理控制缺失",
+        "discussion_count": 2,
+        "discussion": [
+            [
+                {
+                    "id": "3153618",
+                    "title": "新增服务管理控制能力",
+                    "url": "",
+                    "clean_data": "现状：沙箱进程无法通过systemd实现服务管理控制。 解决方案：nsm需提供公共接口支持服务管理能力。   根据示例格式重组后  问题：沙箱进程systemd服务管理支持缺失 方案：nsm提供公共接口实现服务管理控制",
+                    "created_at": "2025-06-04 18:10:24",
+                    "topic_summary": "cluster-7",
+                    "source_type": "issue",
+                    "source_id": "3153618",
+                    "source_closed": false,
+                    "cosine": 0.677,
+                    "closed_cosine": 0.0
+                },
+                {
+                    "id": 1236,
+                    "title": "【待评审】支持服务进程状态管理能力",
+                    "url": "https://discuss.openubmc.cn//t/topic/1236/1",
+                    "clean_data": "需求：     当前因沙箱隔离导致systemd无法通过常规方式 如kill指令 管理内部服务进程状态，需新增nsm非沙箱组件提供的服务管理接口，支持对沙箱 非沙箱服务进行启动、停止、重启及状态查询。      关键方案：     1    接口定义：   新增资源树路径   bmc kepler Managers   ManagerId  ServiceManager ，集成至  bmc kepler Managers ServiceManager  接口。   2    功能方法：           Start  服务启动          Stop  服务停止          Restart  服务重启          GetStatus  服务状态查询，返回   active     inactive      3    实施条件：   组件需将待管理服务的service文件部署至   etc systemd system  目录，操作权限限制为  SecurityMgmt 。      目标：     通过nsm组件实现沙箱场景下服务的标准化控制管理。",
+                    "created_at": "2025-06-04 10:15:04",
+                    "topic_summary": "cluster-7",
+                    "source_type": "forum",
+                    "source_id": 1236,
+                    "source_closed": false,
+                    "cosine": 0.677,
+                    "closed_cosine": 0.0
+                }
+            ]
+        ],
+        "label": "软件可扩展性"
+    },
+    "8": {
+        "summary": "BMC开发中如何确保文件安全函数调用以0表示成功",
+        "discussion_count": 3,
+        "discussion": [
+            [
+                {
+                    "id": "3152859",
+                    "title": "【需求】支持文件安全操作函数返回值判断",
+                    "url": "",
+                    "clean_data": "支持文件安全函数成功 失败返回值判断 非零 失败    描述：修改文件安全函数调用逻辑，开发人员根据返回值是否为0判断操作结果，强化BMC运行时的错误处理完整性。   关联：openUBMC25 06版本需适配此标准返回值校验机制。",
+                    "created_at": "2025-06-03 20:49:36",
+                    "topic_summary": "cluster-0",
+                    "source_type": "issue",
+                    "source_id": "3152859",
+                    "source_closed": true,
+                    "cosine": 0.734,
+                    "closed_cosine": 0.0
+                },
+                {
+                    "id": "3152865",
+                    "title": "【需求】支持文件安全操作函数返回值判断",
+                    "url": "",
+                    "clean_data": "支持通过文件安全函数返回值 0为成功 判断执行状态",
+                    "created_at": "2025-06-03 21:00:28",
+                    "topic_summary": "cluster-0",
+                    "source_type": "issue",
+                    "source_id": "3152865",
+                    "source_closed": false,
+                    "cosine": 0.652,
+                    "closed_cosine": 0.0
+                },
+                {
+                    "id": "3152866",
+                    "title": "【需求】支持文件安全操作函数返回值判断",
+                    "url": "",
+                    "clean_data": "支持文件安全操作函数 filesecure ops 返回值等于0作为成功 失败判断标准，适配开发人员调用需求。",
+                    "created_at": "2025-06-03 21:02:45",
+                    "topic_summary": "cluster-0",
+                    "source_type": "issue",
+                    "source_id": "3152866",
+                    "source_closed": false,
+                    "cosine": 0.613,
+                    "closed_cosine": 0.0
+                }
+            ]
+        ]
+    }
+}

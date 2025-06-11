@@ -35,7 +35,6 @@ class Cluster:
             discuss_data = DiscussData(
                 id=discuss.get('id'),
                 title=discuss.get('title'),
-                body=discuss.get('body'),
                 url=discuss.get('url'),
                 cleaned_data=discuss.get('clean_data', ''),
                 created_at=discuss.get('created_at'),
@@ -62,13 +61,17 @@ class Cluster:
                 result_set.add(summary)
         return list(result_set)
     
+    def get_embedding_contexts(self, discuss_list):
+        """获取所有讨论的内容列表，用于嵌入模型"""
+        return [discuss.get_cleaned_content() for discuss in discuss_list]
+    
     def get_published_discuss_contexts(self):
         """获取已发布话题的完整数据"""
-        return [discuss.get_cleaned_content() for discuss in self._published_discuss_list]
+        return self.get_embedding_contexts(self._published_discuss_list)
     
     def get_discuss_contexts(self):
         """获取所有讨论的内容列表"""
-        return [discuss.get_cleaned_content() for discuss in self._discuss_list]
+        return self.get_embedding_contexts(self._discuss_list)
     
     def caculate_similarity(self, contexts_a, contexts_b, threshold=0.75):
         """计算讨论内容与已发布话题摘要的相似度"""
@@ -215,13 +218,111 @@ class Cluster:
                 discuss.set_summary(f"cluster-{i}")
                 self._clustered_discuss_list.append(discuss)
 
+    def caculate_closed_discuss_sync(self, published_topics):
+        """同步已关闭的讨论源至未关闭的讨论源"""
+        for topic_id, topic_info in published_topics.items():
+            discussion = topic_info.get("discussion", [])
+            open_discussion = []
+            closed_discussion = []
+            for discuss in discussion:
+                if discuss.get_source_closed():
+                    closed_discussion.append(discuss)
+                else:
+                    open_discussion.append(discuss)
+            if not closed_discussion:
+                discussion = [open_discussion]
+                topic_info["discussion"] = discussion
+                continue
+            open_contexts = self.get_embedding_contexts(open_discussion)
+            closed_contexts = self.get_embedding_contexts(closed_discussion)
+            # 计算未关闭讨论源与已关闭讨论源之间的相似度
+            topic_similarities = self.caculate_similarity(open_contexts, closed_contexts, threshold=0.75)
+            similarity_map = {}
+            for i, j, similarity in topic_similarities:
+                if i not in similarity_map:
+                    similarity_map[i] = []
+                similarity_map[i].append((j, similarity))
+            discussion_list = []
+            for closed_index, similarity_item in similarity_map.items():
+                similarity_item.sort(key=lambda x: x[1], reverse=True)
+                closed_discussion_cluster = [closed_discussion.pop(closed_index)]
+                closed_discussion_cluster[0].set_closed_similarity(1.0)
+                for j, similarity in similarity_item:
+                    open_discussion_to_closed = open_discussion.pop(j)
+                    open_discussion_to_closed.set_closed_similarity(round(float(similarity), 3))
+                    closed_discussion_cluster.append(open_discussion_to_closed)
+                discussion_list.append(closed_discussion_cluster)
+
+            if closed_discussion:
+                discussion_list.append(closed_discussion)
+            if open_discussion:
+                discussion_list.append(open_discussion)
+
+            topic_info["discussion"] = discussion_list
+            published_topics[topic_id] = topic_info
+
+        return published_topics
+            
+        
+    def sorted_discuss_by_similarity(self, topics):
+        for topic_id, topic_info in topics.items():
+            discussion = topic_info.get("discussion", [])
+            discuss_contexts = self.get_embedding_contexts(discussion)
+            summary_contexts = [topic_info.get("summary", "")]
+            # 讨论源与话题之间进行相似度计算
+            topic_similarities = self.caculate_similarity(discuss_contexts, summary_contexts, threshold=0.1)
+            for i, _, similarity in topic_similarities:
+                discussion[i].set_similarity(round(float(similarity), 3))
+            
+            discussion.sort(key=lambda x: x.get_similarity(), reverse=True)
+
+            topics[topic_id]["discussion"] = discussion
+
+        return topics
+    
+    def deal_clustered_topics(self, clustered_topics):
+        """处理聚类后的话题"""
+        for topic_id, topic_info in clustered_topics.items():
+            discussion = topic_info.get("discussion", [])
+            topic_info["discussion"] = [discussion]
+            clustered_topics[topic_id] = topic_info
+        return clustered_topics
+    
+    def encode_topics_out(self, topics):
+        """编码话题输出"""
+        for topic_id, topic_info in topics.items():
+            discussion = topic_info.get("discussion", [])
+            new_discussion = []
+            for discuss_list in discussion:
+                new_discussion.append([discuss.to_dict() for discuss in discuss_list])
+            topic_info["discussion"] = new_discussion
+            topics[topic_id] = topic_info
+        return topics
+
+    def merge_published_and_clustered_topics(self, published_topics, clustered_topics):
+        """Merge published topics and clustered topics."""
+        # TODO: 已发布话题的closed讨论源与该话题的其他讨论源计算相似度，看是否具有借鉴性
+        published_topics = self.sorted_discuss_by_similarity(published_topics)
+        clustered_topics = self.sorted_discuss_by_similarity(clustered_topics)
+        published_topics = self.caculate_closed_discuss_sync(published_topics)
+        clustered_topics = self.deal_clustered_topics(clustered_topics)
+
+        clustered_topics = self.encode_topics_out(clustered_topics)
+        merged_topics = self.encode_topics_out(published_topics)
+        published_topic_num = len(merged_topics)
+        for topic_id, topic_info in clustered_topics.items():
+            topic_id = str(int(topic_id) + published_topic_num)
+            merged_topics[topic_id] = topic_info
+        return merged_topics
+
     def run(self):
         self.try_append_topic()
         self.graph_cluster(threshold=0.75)
+        published_topics = decode_topics(self._published_discuss_list, using_embedding=True)
         summary = Summary()
-        summary.summarize_pipeline(
-            self._published_discuss_list, self._clustered_discuss_list
-        )
+        clustered_topic = summary.summarize_pipeline(self._clustered_discuss_list)
+        result_topic = self.merge_published_and_clustered_topics(published_topics, clustered_topic)
+        return result_topic
 
     def get_clustered_discuss(self):
         """获取聚类后的讨论列表"""

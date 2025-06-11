@@ -11,6 +11,25 @@ except ImportError:
 def load_input_data(mock_path):
     with open(mock_path, 'r') as graph_file:
         graph_data = json.load(graph_file)
+
+    for key, value in graph_data.items():
+        discussion = value.get('discussion', [])
+        discuss_list = []
+        for discuss in discussion:
+            discuss_data = DiscussData(
+                id=discuss.get('id'),
+                title=discuss.get('title'),
+                url=discuss.get('url'),
+                cleaned_data=discuss.get('clean_data', ''),
+                created_at=discuss.get('created_at'),
+                topic_summary=discuss.get('topic_summary', ''),
+                source_type=discuss.get('source_type', 'unknown'),
+                source_id=discuss.get('source_id', ''),
+                source_closed=discuss.get('source_closed', False)
+            )
+            discuss_list.append(discuss_data)
+        graph_data[key]['discussion'] = discuss_list
+
     return graph_data
 
 def decode_topics(mock_path = "tests/mock_data/clustered_discuss.json"):
@@ -21,7 +40,6 @@ def decode_topics(mock_path = "tests/mock_data/clustered_discuss.json"):
             discuss_data = DiscussData(
                 id=discuss.get('id'),
                 title=discuss.get('title'),
-                body=discuss.get('body'),
                 url=discuss.get('url'),
                 cleaned_data=discuss.get('clean_data', ''),
                 created_at=discuss.get('created_at'),
@@ -33,17 +51,23 @@ def decode_topics(mock_path = "tests/mock_data/clustered_discuss.json"):
             discuss_list.append(discuss_data)
     return discuss_list
 
+def save_clustered_summary(res):
+    for key, item in res.items():
+        discussion = item.get('discussion', [])
+        json_string = [ite.to_dict() for ite in discussion]
+        item['discussion'] = json_string
+    # 保存聚类结果
+    with open('tests/mock_data/clustered_summary.json', 'w') as summary_file:
+        json.dump(res, summary_file, ensure_ascii=False, indent=4)
+
 @pytest.mark.skipif(should_skip_unless_run_flag(True), reason="需要修改配置文件config.ini为真实的API_KEY")
 def test_first_summary():
     """测试第一次生成摘要"""
     summary = Summary()
-    published_discuss = []
     clustered_discuss = decode_topics()
-    res = summary.summarize_pipeline(published_discuss, clustered_discuss)
+    res = summary.summarize_pipeline(clustered_discuss)
 
-    # 保存聚类结果
-    # with open('tests/mock_data/clustered_summary.json', 'w') as summary_file:
-    #     json.dump(res, summary_file, ensure_ascii=False, indent=4)
+    # save_clustered_summary(res)
 
     assert res is not None
     assert len(res) == 5

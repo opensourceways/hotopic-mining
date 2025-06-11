@@ -1,141 +1,154 @@
 {
     "0": {
-        "summary": "BMC研发者如何实现文件安全操作函数的返回值可靠判断",
-        "discussion_count": 3,
-        "discussion": [
-            {
-                "id": "3152866",
-                "title": "【需求】支持文件安全操作函数返回值判断",
-                "url": "",
-                "created_at": "2025-06-03 21:02:45",
-                "source_type": "issue",
-                "source_id": "3152866",
-                "source_closed": false,
-                "cosine": 0.0
-            },
-            {
-                "id": "3152865",
-                "title": "【需求】支持文件安全操作函数返回值判断",
-                "url": "",
-                "created_at": "2025-06-03 21:00:28",
-                "source_type": "issue",
-                "source_id": "3152865",
-                "source_closed": false,
-                "cosine": 0.0
-            },
-            {
-                "id": "3152859",
-                "title": "【需求】支持文件安全操作函数返回值判断",
-                "url": "",
-                "created_at": "2025-06-03 20:49:36",
-                "source_type": "issue",
-                "source_id": "3152859",
-                "source_closed": true,
-                "cosine": 0.0
-            }
-        ]
-    },
-    "1": {
-        "summary": "BMC开发者如何在Web界面实现硬盘槽位总数显示",
-        "discussion_count": 2,
-        "discussion": [
-            {
-                "id": "3152621",
-                "title": "支持web页面显示可插硬盘的槽位总数",
-                "url": "",
-                "created_at": "2025-06-03 15:22:12",
-                "source_type": "issue",
-                "source_id": "3152621",
-                "source_closed": false,
-                "cosine": 0.0
-            },
-            {
-                "id": "3148908",
-                "title": "【需求】支持新浪定制化页面显示可插硬盘的槽位总数",
-                "url": "",
-                "created_at": "2025-05-30 09:11:55",
-                "source_type": "issue",
-                "source_id": "3148908",
-                "source_closed": false,
-                "cosine": 0.0
-            }
-        ]
-    },
-    "2": {
-        "summary": "BMC开发者如何为Web界面添加升级状态及生效状态查询功能",
-        "discussion_count": 2,
-        "discussion": [
-            {
-                "id": "3153763",
-                "title": "【需求】web界面查询升级状态及生效状态信息",
-                "url": "",
-                "created_at": "2025-06-04 21:58:37",
-                "source_type": "issue",
-                "source_id": "3153763",
-                "source_closed": false,
-                "cosine": 0.0
-            },
-            {
-                "id": "3150879",
-                "title": "【需求】web界面查询升级状态及生效状态信息",
-                "url": "",
-                "created_at": "2025-06-01 15:58:59",
-                "source_type": "issue",
-                "source_id": "3150879",
-                "source_closed": false,
-                "cosine": 0.0
-            }
-        ]
-    },
-    "3": {
-        "summary": "BMC开发者如何实现在Web界面显示电源工作模式及主用电源列表",
+        "summary": "BMC开发者如何实现Web界面提示优选主用电源",
         "discussion_count": 2,
         "discussion": [
             {
                 "id": "3152605",
                 "title": "【需求】【PowerStrategy】支持Web界面提示优选主用电源",
                 "url": "",
+                "clean_data": "",
                 "created_at": "2025-06-03 14:58:52",
+                "topic_summary": "cluster-3",
                 "source_type": "issue",
                 "source_id": "3152605",
-                "source_closed": false,
-                "cosine": 0.0
+                "source_closed": false
             },
             {
                 "id": "3151771",
                 "title": "支持web界面显示优选电源工作模式及主用电源列表",
                 "url": "",
+                "clean_data": "",
                 "created_at": "2025-06-02 14:14:37",
+                "topic_summary": "cluster-3",
                 "source_type": "issue",
                 "source_id": "3151771",
-                "source_closed": false,
-                "cosine": 0.0
+                "source_closed": false
+            }
+        ],
+        "label": "软件安全性"
+    },
+    "1": {
+        "summary": "BMC开发者如何通过web界面查询固件升级状态及生效状态",
+        "discussion_count": 2,
+        "discussion": [
+            {
+                "id": "3153763",
+                "title": "【需求】web界面查询升级状态及生效状态信息",
+                "url": "",
+                "clean_data": "",
+                "created_at": "2025-06-04 21:58:37",
+                "topic_summary": "cluster-2",
+                "source_type": "issue",
+                "source_id": "3153763",
+                "source_closed": false
+            },
+            {
+                "id": "3150879",
+                "title": "【需求】web界面查询升级状态及生效状态信息",
+                "url": "",
+                "clean_data": "",
+                "created_at": "2025-06-01 15:58:59",
+                "topic_summary": "cluster-2",
+                "source_type": "issue",
+                "source_id": "3150879",
+                "source_closed": false
+            }
+        ],
+        "label": "开发者使用"
+    },
+    "2": {
+        "summary": "BMC固件开发中如何安全处理文件操作返回值",
+        "discussion_count": 3,
+        "discussion": [
+            {
+                "id": "3152866",
+                "title": "【需求】支持文件安全操作函数返回值判断",
+                "url": "",
+                "clean_data": "",
+                "created_at": "2025-06-03 21:02:45",
+                "topic_summary": "cluster-0",
+                "source_type": "issue",
+                "source_id": "3152866",
+                "source_closed": false
+            },
+            {
+                "id": "3152865",
+                "title": "【需求】支持文件安全操作函数返回值判断",
+                "url": "",
+                "clean_data": "",
+                "created_at": "2025-06-03 21:00:28",
+                "topic_summary": "cluster-0",
+                "source_type": "issue",
+                "source_id": "3152865",
+                "source_closed": false
+            },
+            {
+                "id": "3152859",
+                "title": "【需求】支持文件安全操作函数返回值判断",
+                "url": "",
+                "clean_data": "",
+                "created_at": "2025-06-03 20:49:36",
+                "topic_summary": "cluster-0",
+                "source_type": "issue",
+                "source_id": "3152859",
+                "source_closed": true
+            }
+        ]
+    },
+    "3": {
+        "summary": "BMC开发者如何在定制Web页面实现硬盘槽位总数显示",
+        "discussion_count": 2,
+        "discussion": [
+            {
+                "id": "3152621",
+                "title": "支持web页面显示可插硬盘的槽位总数",
+                "url": "",
+                "clean_data": "",
+                "created_at": "2025-06-03 15:22:12",
+                "topic_summary": "cluster-1",
+                "source_type": "issue",
+                "source_id": "3152621",
+                "source_closed": false
+            },
+            {
+                "id": "3148908",
+                "title": "【需求】支持新浪定制化页面显示可插硬盘的槽位总数",
+                "url": "",
+                "clean_data": "",
+                "created_at": "2025-05-30 09:11:55",
+                "topic_summary": "cluster-1",
+                "source_type": "issue",
+                "source_id": "3148908",
+                "source_closed": false
             }
         ]
     },
     "4": {
-        "summary": "BMC开发者如何正确实现CoolingRequirement模块下SensorName私有属性的挂载",
+        "summary": "BMC开发者如何正确处理CoolingRequirement类中私有属性SensorName的上树操作",
         "discussion_count": 2,
         "discussion": [
             {
                 "id": "3151841",
                 "title": "bmc.kepler.Systems.CoolingRequirement下私有属性SensorName上树",
                 "url": "",
+                "clean_data": "",
                 "created_at": "2025-06-02 17:14:03",
+                "topic_summary": "cluster-4",
                 "source_type": "issue",
                 "source_id": "3151841",
-                "source_closed": true,
-                "cosine": 0.0
+                "source_closed": true
             },
             {
                 "id": "3151828",
                 "title": "<thermal_mgmt> bmc.kepler.Systems.CoolingRequirement下私有属性SensorName上树",
                 "url": "",
+                "clean_data": "",
                 "created_at": "2025-06-02 16:45:54",
+                "topic_summary": "cluster-4",
                 "source_type": "issue",
                 "source_id": "3151828",
-                "source_closed": false,
-                "cosine": 0.0
+                "source_closed": false
             }
         ]
     }
