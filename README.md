@@ -8,6 +8,7 @@
 * 执行命令: `python -m pytest`
 * 指定某个文件的测试用例执行: `python -m pytest -vs test/test_cluster.py`
 * 指定某个特定的用例测试用例执行: `python -m pytest -vs tests/test_summary.py::test_first_summary`
+* 通过执行参数运行skip的用例：`python -m pytest -vs tests/test_cluster.py --run-specific-skips`
 
 ### 本地执行 main 函数
 

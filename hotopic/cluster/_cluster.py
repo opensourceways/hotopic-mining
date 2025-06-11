@@ -218,10 +218,10 @@ class Cluster:
     def run(self):
         self.try_append_topic()
         self.graph_cluster(threshold=0.75)
-        # summary = Summary()
-        # summary.summarize_pipeline(
-        #     self._published_discuss_list, self._clustered_discuss_list
-        # )
+        summary = Summary()
+        summary.summarize_pipeline(
+            self._published_discuss_list, self._clustered_discuss_list
+        )
 
     def get_clustered_discuss(self):
         """获取聚类后的讨论列表"""

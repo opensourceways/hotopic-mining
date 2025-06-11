@@ -2,6 +2,11 @@ from hotopic.summary import Summary
 from hotopic.utils import *
 import pytest
 import json
+try:
+    from conftest import should_skip_unless_run_flag
+except ImportError:
+    print("Warning: conftest.should_skip_unless_run_flag not found, direct logic might be brittle.")
+    pass # 保持使用导入版本的逻辑
 
 def load_input_data(mock_path):
     with open(mock_path, 'r') as graph_file:
@@ -28,6 +33,7 @@ def decode_topics(mock_path = "tests/mock_data/clustered_discuss.json"):
             discuss_list.append(discuss_data)
     return discuss_list
 
+@pytest.mark.skipif(should_skip_unless_run_flag(True), reason="需要修改配置文件config.ini为真实的API_KEY")
 def test_first_summary():
     """测试第一次生成摘要"""
     summary = Summary()
@@ -43,6 +49,7 @@ def test_first_summary():
     assert len(res) == 5
     assert res["0"]["summary"] != "cluster-0"
 
+@pytest.mark.skipif(should_skip_unless_run_flag(True), reason="需要修改配置文件config.ini为真实的API_KEY")
 def test_clustered_rerank():
     """测试聚类后重新排序"""
     summary = Summary()
