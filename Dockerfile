@@ -12,4 +12,4 @@ COPY . .
 
 USER hotopic
 
-CMD ["python3", "-m hotopic.main"]
+CMD ["python3", "-m", "hotopic.main"]

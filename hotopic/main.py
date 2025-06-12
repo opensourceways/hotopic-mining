@@ -9,7 +9,7 @@ logger.configure("INFO")
 def load_config():
     config_manager = SecureConfigManager(
         plain_config_path="conf/config.yaml",
-        sensitive_config_path="conf/secret/config.ini"
+        sensitive_config_path="conf/config.ini"
     )
 
     embedding_name = config_manager.get_plain('llm', 'embedding_name')
