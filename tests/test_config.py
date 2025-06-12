@@ -4,7 +4,7 @@ def test_config():
     # 首次初始化
     config = SecureConfigManager(
         plain_config_path="conf/config.yaml",
-        sensitive_config_path="conf/secret/config.ini"
+        sensitive_config_path="conf/config.ini"
     )
     
     # 获取明文配置
