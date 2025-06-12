@@ -115,77 +115,7 @@
         ]
     },
     "3": {
-        "summary": "BMC开发者如何实现CPU及PCIE状态传感器参数定制",
-        "discussion_count": 2,
-        "discussion": [
-            [
-                {
-                    "id": "3152378",
-                    "title": "【需求】支持定制PCIE_Status传感器",
-                    "url": "",
-                    "clean_data": "openUBMC 25 1 0新增PCIE Status传感器定制功能 0 3人月 ，适用于BMC开发、测试、运维及网管人员。",
-                    "created_at": "2025-06-03 10:49:17",
-                    "topic_summary": "cluster-3",
-                    "source_type": "issue",
-                    "source_id": "3152378",
-                    "source_closed": true,
-                    "cosine": 0.788,
-                    "closed_cosine": 0.0
-                },
-                {
-                    "id": "3152383",
-                    "title": "【需求】支持CPUx_Status定制传感器",
-                    "url": "",
-                    "clean_data": "新增openUBMC 25 1 0版本CPU状态传感器 CPUx Status 支持，其中x为从0起始的CPU编号，适用于开发 测试 运维场景。",
-                    "created_at": "2025-06-03 10:54:15",
-                    "topic_summary": "cluster-3",
-                    "source_type": "issue",
-                    "source_id": "3152383",
-                    "source_closed": false,
-                    "cosine": 0.682,
-                    "closed_cosine": 0.0
-                }
-            ]
-        ],
-        "label": "软件可扩展性"
-    },
-    "4": {
-        "summary": "BMC如何通过Redfish IPMI接口优化硬盘日志收集控制",
-        "discussion_count": 2,
-        "discussion": [
-            [
-                {
-                    "id": "3153357",
-                    "title": "【需求】硬盘诊断功能控制",
-                    "url": "",
-                    "clean_data": "硬盘日志收集控制功能：运维人员通过Redfish IPMI 定制接口，设置硬盘自动日志收集开关、收集周期参数及手动触发日志收集操作。功能需在BMC正常运行前提下实现。",
-                    "created_at": "2025-06-04 12:02:43",
-                    "topic_summary": "cluster-4",
-                    "source_type": "issue",
-                    "source_id": "3153357",
-                    "source_closed": false,
-                    "cosine": 0.735,
-                    "closed_cosine": 0.0
-                },
-                {
-                    "id": "3153350",
-                    "title": "【需求】支持硬盘诊断功能控制",
-                    "url": "",
-                    "clean_data": "通过Redfish接口、IPMI命令及装备定制化接口实现硬盘日志收集的自动开启、周期设置及手动触发功能。   注：原文中 所属版本  周边依赖 等字段信息缺失， 通过   实现    的实现方式与标题核心需求直接关联，符合社区开发者关注的技术实现需求",
-                    "created_at": "2025-06-04 11:50:49",
-                    "topic_summary": "cluster-4",
-                    "source_type": "issue",
-                    "source_id": "3153350",
-                    "source_closed": false,
-                    "cosine": 0.656,
-                    "closed_cosine": 0.0
-                }
-            ]
-        ],
-        "label": "开发者使用"
-    },
-    "5": {
-        "summary": "BMC开发者如何通过接口动态获取电源策略数据并在Web界面集成权限控制",
+        "summary": "BMC开发者如何通过接口实现电源策略状态的动态Web集成与权限控制",
         "discussion_count": 2,
         "discussion": [
             [
@@ -199,7 +129,7 @@
                     "source_type": "issue",
                     "source_id": "3151771",
                     "source_closed": false,
-                    "cosine": 0.678,
+                    "cosine": 0.68,
                     "closed_cosine": 0.0
                 },
                 {
@@ -212,15 +142,50 @@
                     "source_type": "issue",
                     "source_id": "3152605",
                     "source_closed": false,
-                    "cosine": 0.517,
+                    "cosine": 0.51,
                     "closed_cosine": 0.0
                 }
             ]
         ],
         "label": "开发者使用"
     },
-    "6": {
-        "summary": "BMC开发者如何暴露CoolingRequirement下的SensorName属性以支持调速策略查询",
+    "4": {
+        "summary": "BMC开发者如何实现定制CPU和PCIe状态传感器支持",
+        "discussion_count": 2,
+        "discussion": [
+            [
+                {
+                    "id": "3152378",
+                    "title": "【需求】支持定制PCIE_Status传感器",
+                    "url": "",
+                    "clean_data": "openUBMC 25 1 0新增PCIE Status传感器定制功能 0 3人月 ，适用于BMC开发、测试、运维及网管人员。",
+                    "created_at": "2025-06-03 10:49:17",
+                    "topic_summary": "cluster-3",
+                    "source_type": "issue",
+                    "source_id": "3152378",
+                    "source_closed": true,
+                    "cosine": 0.76,
+                    "closed_cosine": 0.0
+                },
+                {
+                    "id": "3152383",
+                    "title": "【需求】支持CPUx_Status定制传感器",
+                    "url": "",
+                    "clean_data": "新增openUBMC 25 1 0版本CPU状态传感器 CPUx Status 支持，其中x为从0起始的CPU编号，适用于开发 测试 运维场景。",
+                    "created_at": "2025-06-03 10:54:15",
+                    "topic_summary": "cluster-3",
+                    "source_type": "issue",
+                    "source_id": "3152383",
+                    "source_closed": false,
+                    "cosine": 0.679,
+                    "closed_cosine": 0.0
+                }
+            ]
+        ],
+        "label": "硬件支持"
+    },
+    "5": {
+        "summary": "BMC开发者需实现CoolingRequirement的SensorName属性上树以支持北向接口调速策略查询",
         "discussion_count": 2,
         "discussion": [
             [
@@ -234,7 +199,7 @@
                     "source_type": "issue",
                     "source_id": "3151841",
                     "source_closed": false,
-                    "cosine": 0.785,
+                    "cosine": 0.85,
                     "closed_cosine": 0.0
                 },
                 {
@@ -247,7 +212,42 @@
                     "source_type": "issue",
                     "source_id": "3151828",
                     "source_closed": false,
-                    "cosine": 0.768,
+                    "cosine": 0.831,
+                    "closed_cosine": 0.0
+                }
+            ]
+        ],
+        "label": "软件可扩展性"
+    },
+    "6": {
+        "summary": "BMC开发者如何可靠实现硬盘日志收集自动开关与手动触发控制",
+        "discussion_count": 2,
+        "discussion": [
+            [
+                {
+                    "id": "3153357",
+                    "title": "【需求】硬盘诊断功能控制",
+                    "url": "",
+                    "clean_data": "硬盘日志收集控制功能：运维人员通过Redfish IPMI 定制接口，设置硬盘自动日志收集开关、收集周期参数及手动触发日志收集操作。功能需在BMC正常运行前提下实现。",
+                    "created_at": "2025-06-04 12:02:43",
+                    "topic_summary": "cluster-4",
+                    "source_type": "issue",
+                    "source_id": "3153357",
+                    "source_closed": false,
+                    "cosine": 0.644,
+                    "closed_cosine": 0.0
+                },
+                {
+                    "id": "3153350",
+                    "title": "【需求】支持硬盘诊断功能控制",
+                    "url": "",
+                    "clean_data": "通过Redfish接口、IPMI命令及装备定制化接口实现硬盘日志收集的自动开启、周期设置及手动触发功能。   注：原文中 所属版本  周边依赖 等字段信息缺失， 通过   实现    的实现方式与标题核心需求直接关联，符合社区开发者关注的技术实现需求",
+                    "created_at": "2025-06-04 11:50:49",
+                    "topic_summary": "cluster-4",
+                    "source_type": "issue",
+                    "source_id": "3153350",
+                    "source_closed": false,
+                    "cosine": 0.612,
                     "closed_cosine": 0.0
                 }
             ]
@@ -255,23 +255,10 @@
         "label": "软件可扩展性"
     },
     "7": {
-        "summary": "BMC开发者如何精确实现IB卡连接状态监控",
+        "summary": "BMC开发者如何确保OSLinkStatus属性复位后自动清零",
         "discussion_count": 2,
         "discussion": [
             [
-                {
-                    "id": 1240,
-                    "title": "【已评审】NetworkPort接口增加属性OSLinkStatus",
-                    "url": "https://discuss.openubmc.cn//t/topic/1240/1",
-                    "clean_data": "path     bmc kepler Systems  SystemId NetworkAdapters    interface    bmc kepler Systems NetworkPort   新增只读string类型属性 OSLinkStatus，默认空字符串，用于记录BMA上报的IB卡实时连接状态 Sleep Polling Disabled等 ，替换原有    的默认显示逻辑，支持带内状态采集的完整性。该属性不持久化存储，读取权限ReadOnly。   关联评审结论：已在所述接口路径下通过评审新增OSLinkStatus扩展属性。",
-                    "created_at": "2025-06-04 13:30:57",
-                    "topic_summary": "cluster-5",
-                    "source_type": "forum",
-                    "source_id": 1240,
-                    "source_closed": false,
-                    "cosine": 0.58,
-                    "closed_cosine": 0.0
-                },
                 {
                     "id": "3153754",
                     "title": "NetworkPort接口增加属性OSLinkStatus",
@@ -282,15 +269,28 @@
                     "source_type": "issue",
                     "source_id": "3153754",
                     "source_closed": false,
-                    "cosine": 0.433,
+                    "cosine": 0.648,
+                    "closed_cosine": 0.0
+                },
+                {
+                    "id": 1240,
+                    "title": "【已评审】NetworkPort接口增加属性OSLinkStatus",
+                    "url": "https://discuss.openubmc.cn//t/topic/1240/1",
+                    "clean_data": "path     bmc kepler Systems  SystemId NetworkAdapters    interface    bmc kepler Systems NetworkPort   新增只读string类型属性 OSLinkStatus，默认空字符串，用于记录BMA上报的IB卡实时连接状态 Sleep Polling Disabled等 ，替换原有    的默认显示逻辑，支持带内状态采集的完整性。该属性不持久化存储，读取权限ReadOnly。   关联评审结论：已在所述接口路径下通过评审新增OSLinkStatus扩展属性。",
+                    "created_at": "2025-06-04 13:30:57",
+                    "topic_summary": "cluster-5",
+                    "source_type": "forum",
+                    "source_id": 1240,
+                    "source_closed": false,
+                    "cosine": 0.608,
                     "closed_cosine": 0.0
                 }
             ]
         ],
-        "label": "新硬件支持"
+        "label": "软件稳定性"
     },
     "8": {
-        "summary": "BMC开发者如何实现Web界面实时查询升级与配置状态",
+        "summary": "BMC开发者如何实现Web界面实时升级状态查询功能",
         "discussion_count": 2,
         "discussion": [
             [
@@ -304,7 +304,7 @@
                     "source_type": "issue",
                     "source_id": "3150879",
                     "source_closed": false,
-                    "cosine": 0.803,
+                    "cosine": 0.79,
                     "closed_cosine": 0.0
                 },
                 {
@@ -317,7 +317,7 @@
                     "source_type": "issue",
                     "source_id": "3153763",
                     "source_closed": false,
-                    "cosine": 0.631,
+                    "cosine": 0.66,
                     "closed_cosine": 0.0
                 }
             ]

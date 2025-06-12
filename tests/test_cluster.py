@@ -30,6 +30,16 @@ def save_clustered_second_result(res):
     with open('tests/mock_data/clustered_second_result.json', 'w') as discuss_file:
         json.dump(res, discuss_file, ensure_ascii=False, indent=4)
 
+def delete_cleaned_data(cluster_result):
+    for topic_id, topic_data in cluster_result.items():
+        disscussion = topic_data.get('discussion', [])
+        for item_list in disscussion:
+            for discuss in item_list:
+                del discuss["clean_data"]
+        cluster_result[topic_id]['discussion'] = disscussion
+    # 测试时输出聚类的结果
+    return cluster_result
+
 @pytest.mark.skipif(should_skip_unless_run_flag(True), reason="需要修改配置文件config.ini为真实的API_KEY")
 def test_first_cluster():
     cluster = Cluster()
@@ -50,6 +60,8 @@ def test_second_cluster():
     cluster.load_input_data(input_data)
     res = cluster.run()
     save_clustered_second_result(res)
+    res = delete_cleaned_data(res)
+    # print(res)
     res = cluster.get_clustered_discuss()
     # print(res)
     # save_clustered_discuss(res)
