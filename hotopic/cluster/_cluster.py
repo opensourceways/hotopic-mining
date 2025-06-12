@@ -238,21 +238,35 @@ class Cluster:
             # 计算未关闭讨论源与已关闭讨论源之间的相似度
             topic_similarities = self.caculate_similarity(open_contexts, closed_contexts, threshold=0.75)
             similarity_map = {}
+            open_del_index = []
+            closed_del_index = []
             for i, j, similarity in topic_similarities:
-                if i not in similarity_map:
-                    similarity_map[i] = []
-                similarity_map[i].append((j, similarity))
+                logger.info(f"closed: {j}-{i}-{similarity}")
+                if j not in similarity_map:
+                    similarity_map[j] = []
+                similarity_map[j].append((i, similarity))
+                open_del_index.append(i)
+                closed_del_index.append(j)
+
             discussion_list = []
-            for closed_index, similarity_item in similarity_map.items():
-                similarity_item.sort(key=lambda x: x[1], reverse=True)
-                closed_discussion_cluster = [closed_discussion.pop(closed_index)]
+            for closed_index, item_list in similarity_map.items():
+                item_list.sort(key=lambda x: x[1], reverse=True)
+                closed_discussion_cluster = [closed_discussion[closed_index]]
                 closed_discussion_cluster[0].set_closed_similarity(1.0)
-                for j, similarity in similarity_item:
-                    open_discussion_to_closed = open_discussion.pop(j)
+                for item in item_list:
+                    open_index = item[0]
+                    similarity = item[1]
+                    if open_index >= len(open_discussion):
+                        logger.warning(f"open_index: {open_index} >= len(open_discussion): {len(open_discussion)}")
+                        continue
+                    open_discussion_to_closed = open_discussion[open_index]
                     open_discussion_to_closed.set_closed_similarity(round(float(similarity), 3))
                     closed_discussion_cluster.append(open_discussion_to_closed)
                 discussion_list.append(closed_discussion_cluster)
 
+            # 删除已处理的讨论源
+            open_discussion = [open_discussion[i] for i in range(len(open_discussion)) if i not in open_del_index]
+            closed_discussion = [closed_discussion[i] for i in range(len(closed_discussion)) if i not in closed_del_index]
             if closed_discussion:
                 discussion_list.append(closed_discussion)
             if open_discussion:

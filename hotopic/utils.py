@@ -142,8 +142,8 @@ def cosine_distance(a, b):
 
 def get_embedding_model():
     config_manager = SecureConfigManager(
-        plain_config_path="config.yaml",
-        sensitive_config_path="config.ini"
+        plain_config_path="conf/config.yaml",
+        sensitive_config_path="conf/secret/config.ini"
     )
     api_key = config_manager.get_sensitive('llm', 'api-key')
     base_url = config_manager.get_plain('llm', 'base_url')
