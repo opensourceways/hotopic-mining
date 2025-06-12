@@ -308,7 +308,7 @@ class Cluster:
             discussion = topic_info.get("discussion", [])
             new_discussion = []
             for discuss_list in discussion:
-                new_discussion.append([discuss.to_dict() for discuss in discuss_list])
+                new_discussion.append([discuss.to_dict(return_cleaned_data=False) for discuss in discuss_list])
             topic_info["discussion"] = new_discussion
             topics[topic_id] = topic_info
         return topics

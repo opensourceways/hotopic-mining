@@ -21,7 +21,8 @@ def hotopic_mining_pipeline():
     cluster = Cluster()
     input_data = []
     cluster.load_input_data(input_data)
-    cluster.run()
+    cluster_result = cluster.run()
+    # 7. 话题发布，将生成的话题发布到社区
 
 def hotopic_run_job():
     """周五凌晨执行的任务"""
