@@ -87,8 +87,8 @@ class SecureConfigManager:
 if __name__ == "__main__":
     # 首次初始化
     config = SecureConfigManager(
-        plain_config_path="../config.yaml",
-        sensitive_config_path="../config.ini"
+        plain_config_path="../conf/config.yaml",
+        sensitive_config_path="../conf/secret/config.ini"
     )
     
     # 获取明文配置

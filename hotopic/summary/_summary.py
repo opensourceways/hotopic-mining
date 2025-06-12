@@ -20,8 +20,8 @@ class Summary:
     def __init__(self):
         self._clustered_topics = {}
         config_manager = SecureConfigManager(
-            plain_config_path="config.yaml",
-            sensitive_config_path="config.ini"
+            plain_config_path="conf/config.yaml",
+            ensitive_config_path="conf/secret/config.ini"
         )
         self._base_url = config_manager.get_plain('llm', 'base_url')
         self._llm_model = config_manager.get_plain('llm', 'model_name')
