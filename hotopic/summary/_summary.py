@@ -48,13 +48,18 @@ class Summary:
             api_key=openai_api_key,
             base_url=openai_api_base,
         )
-        chat_outputs = client.chat.completions.create(
-            model = model_name,
-            messages = [
-                {"role": "system", "content": system_prompt},
-                {"role": "user", "content": content},
-            ]
-        )
+        try:         
+        
+            chat_outputs = client.chat.completions.create(
+                model = model_name,
+                messages = [
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user", "content": content},
+                ]
+            )
+        except Exception as e:
+            logger.error(f"LLM API调用失败: {e}")
+            return "<summary>LLM API调用失败，请稍后重试。</summary>"
         # print(chat_outputs.choices[0].message.content)
         end_time = time.time()
         elapsed_time= end_time - start_time
@@ -65,7 +70,7 @@ class Summary:
         """Summarize topics using a summarizer."""
         with tqdm(self._clustered_topics.items(), desc="📊 处理进度", unit="topic", bar_format="{l_bar}{bar:20}{r_bar}") as pbar:
             for topic, contents in pbar:
-                logger.info(f"\ntopic id: {topic}, cluster size: {len(contents)}, titles:")
+                logger.info(f"\ntopic id: {topic}, cluster size: {len(contents["discussion"])}, titles:")
                 content_titles = ""
                 content_block = ""
                 for discuss in contents["discussion"]:

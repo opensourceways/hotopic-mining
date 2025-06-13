@@ -16,6 +16,9 @@ class MyLogger:
 
     def info(self, message):
         self.logger.info(f"{message}")
+    
+    def debug(self, message):
+        self.logger.debug(f"{message}")
 
     def warning(self, message):
         self.logger.warning(f"WARNING: {message}")
@@ -111,20 +114,19 @@ class DiscussData:
         """获取关闭相似度"""
         return self._closed_similarity
     
-    def to_dict(self, return_cleaned_data=True):
+    def to_dict(self, debug=True):
         """返回对象的字典表示，用于JSON序列化。"""
         created_at_str = self._created_at
         # 如果 _created_at 是 datetime 对象，转换为 ISO 格式字符串
         if isinstance(self._created_at, datetime):
             created_at_str = self._created_at.isoformat()
         # 如果 _created_at 已经是字符串或 None，则直接使用
-        if not return_cleaned_data:
+        if not debug:
             return {
                 "id": self._id,
                 "title": self._title,
                 "url": self._url,
                 "created_at": created_at_str, 
-                "topic_summary": self._topic_summary,
                 "source_type": self._source_type,
                 "source_id": self._source_id,
                 "source_closed": self._source_closed,
