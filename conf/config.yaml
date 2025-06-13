@@ -1,5 +1,5 @@
 llm:
-  model_name: "deepseek-ai/DeepSeek-R1"
+  model_name: "Qwen/Qwen3-235B-A22B"
   rerank_model_name: "deepseek-ai/DeepSeek-R1"
   embedding_name: "BAAI/bge-large-zh-v1.5"
   base_url: "https://api.siliconflow.cn/v1"
@@ -67,3 +67,5 @@ data:
   soure_url: "https://example.com/data"
   publish_url: "https://example.com/data"
 
+timer:
+  schedule_time: "00:00"

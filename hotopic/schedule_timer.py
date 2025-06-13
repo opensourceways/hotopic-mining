@@ -4,6 +4,7 @@ import threading
 from datetime import datetime
 from hotopic.utils import MyLogger
 from hotopic.cluster import Cluster
+from hotopic.config import SecureConfigManager
 
 logger = MyLogger()
 logger.configure("INFO")
@@ -35,10 +36,15 @@ def hotopic_run_job():
 
 def start_hotopic_schedule():
     """启动定时任务调度器"""
+    config_manager = SecureConfigManager(
+        plain_config_path="conf/config.yaml",
+        sensitive_config_path="conf/config.ini"
+    )
+    schedule_time = config_manager.get_plain('timer', 'schedule_time')
     # 设置每周五凌晨00:00执行任务
-    # schedule.every().friday.at("00:00").do(hotopic_run_job)
+    schedule.every().friday.at(str(schedule_time)).do(hotopic_run_job)
     # 测试时使用，每2分钟执行一次
-    schedule.every(2).minutes.do(hotopic_run_job)
+    # schedule.every(2).minutes.do(hotopic_run_job)
 
     logger.info("定时任务已启动，每周五凌晨00:00执行...")
     logger.info("按 Ctrl+C 退出程序")

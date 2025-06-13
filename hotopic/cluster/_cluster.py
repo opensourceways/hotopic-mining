@@ -99,17 +99,24 @@ class Cluster:
         if not topic_summaries:
             logger.warning("没有找到已发布的话题摘要")
             return
-        topic_similarities = self.caculate_similarity(discuss_contexts, topic_summaries, threshold=0.7)
+        topic_similarities = self.caculate_similarity(discuss_contexts, topic_summaries, threshold=0.75)
         if not topic_similarities:
             logger.warning("没有找到与已发布话题摘要相似的讨论内容")
             return
+        debug_info = {}
         for topic_similarity in topic_similarities:
             i, j, similarity = topic_similarity
             discuss = self._discuss_list.pop(i)
             topic_summary = topic_summaries[j]
             discuss.set_summary(topic_summary)
             self._published_discuss_list.append(discuss)
-            logger.info(f"将讨论 {discuss.get_id()} 添加到已发布话题中，摘要: {topic_summary}，相似度: {similarity:.2f}")
+            if topic_summary not in debug_info:
+                debug_info[topic_summary] = []
+            debug_info[topic_summary].append((discuss.get_id(), discuss.get_title(), similarity))
+        for topic_summary, discuss_info in debug_info.items():
+            discuss_info_str = "\n".join([f"id: {discuss_id}-title({title})-consin({similarity})" 
+                                            for discuss_id, title, similarity in discuss_info])
+            logger.info(f"话题摘要: {topic_summary}，新增讨论讨论内容:\n{discuss_info_str}")
     
     def try_append_discuss_content(self):
         """尝试将讨论内容添加到已发布话题中"""
@@ -122,13 +129,32 @@ class Cluster:
         if not published_similarities:
             logger.warning("没有找到与已发布讨论内容相似的讨论内容")
             return
+        debug_info = {}
+        to_delete_indices = set()
         for published_similarity in published_similarities:
             i, j, similarity = published_similarity
-            discuss = self._discuss_list.pop(i)
+            discuss = self._discuss_list[i]
+            to_delete_indices.add(i)
             published_discuss = self._published_discuss_list[j]
+            # 校验结果的正确性
+            # discuss_context = [discuss.get_cleaned_content()]
+            # published_discuss_context = [published_discuss.get_cleaned_content()]
+            # si = self.caculate_similarity(discuss_context, published_discuss_context, threshold=0.75)
+            # logger.info(f"讨论内容与已发布讨论内容相似度: {si}")
             discuss.set_summary(published_discuss.get_summary())
             self._published_discuss_list.append(discuss)
-            logger.info(f"将讨论 {discuss.get_id()} 添加到已发布话题中，摘要: {published_discuss.get_summary()}，相似度: {similarity:.2f}")
+            if published_discuss.get_summary() not in debug_info:
+                debug_info[published_discuss.get_summary()] = []
+            debug_info[published_discuss.get_summary()].append((discuss.get_id(), discuss.get_title(), 
+                                published_discuss.get_id(), published_discuss.get_title(), similarity))
+        self._discuss_list = [discuss for i, discuss in enumerate(self._discuss_list) if i not in to_delete_indices]
+
+        for published_summary, discuss_info in debug_info.items():
+            discuss_info_str = "\n".join(
+                [f"(id: {discuss_id} {title})-(pub_id: {pub_id} {pub_title})-similarity({similarity})"
+                    for discuss_id, title, pub_id, pub_title, similarity in discuss_info]
+            )
+            logger.info(f"publish 话题摘要: {published_summary}，讨论内容:\n{discuss_info_str}")
 
     
     def try_append_topic(self):
@@ -152,7 +178,7 @@ class Cluster:
                     in_title = self._discuss_list[i].get_title()
                     out_id = self._discuss_list[j].get_id()
                     out_title = self._discuss_list[j].get_title()
-                    logger.info(
+                    logger.debug(
                         f"id: {in_id}, title: {in_title}, id: {out_id}, title: {out_title}, cosine: {cosine}"
                     )
                     graph_nodes.append({
@@ -308,7 +334,7 @@ class Cluster:
             discussion = topic_info.get("discussion", [])
             new_discussion = []
             for discuss_list in discussion:
-                new_discussion.append([discuss.to_dict(return_cleaned_data=False) for discuss in discuss_list])
+                new_discussion.append([discuss.to_dict(debug=False) for discuss in discuss_list])
             topic_info["discussion"] = new_discussion
             topics[topic_id] = topic_info
         return topics

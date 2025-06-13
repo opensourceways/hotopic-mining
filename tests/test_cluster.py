@@ -27,7 +27,7 @@ def save_clustered_result(res):
 
 def save_clustered_second_result(res):
     # 测试时输出聚类的结果
-    with open('tests/mock_data/clustered_second_result.json', 'w') as discuss_file:
+    with open('tests/mock_data/clustered_second_result_6_13.json', 'w') as discuss_file:
         json.dump(res, discuss_file, ensure_ascii=False, indent=4)
 
 def delete_cleaned_data(cluster_result):
@@ -35,7 +35,8 @@ def delete_cleaned_data(cluster_result):
         disscussion = topic_data.get('discussion', [])
         for item_list in disscussion:
             for discuss in item_list:
-                del discuss["clean_data"]
+                if "clean_data" in discuss:
+                    del discuss["clean_data"]
         cluster_result[topic_id]['discussion'] = disscussion
     # 测试时输出聚类的结果
     return cluster_result
@@ -56,11 +57,12 @@ def test_first_cluster():
 @pytest.mark.skipif(should_skip_unless_run_flag(True), reason="需要修改配置文件config.ini为真实的API_KEY")
 def test_second_cluster():
     cluster = Cluster()
-    input_data = load_input_data("tests/mock_data/second_data.json")
+    input_data = load_input_data("tests/mock_data/output_data_ubmc_without_topic_closed.json")
+    # input_data = load_input_data("tests/mock_data/second_data.json")
     cluster.load_input_data(input_data)
     res = cluster.run()
+    # res = delete_cleaned_data(res)
     save_clustered_second_result(res)
-    res = delete_cleaned_data(res)
     # print(res)
     res = cluster.get_clustered_discuss()
     # print(res)
