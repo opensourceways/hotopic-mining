@@ -1,15 +1,17 @@
 import schedule # type: ignore
 import time
+import json
 import threading
 from datetime import datetime
 from hotopic.utils import MyLogger
 from hotopic.cluster import Cluster
 from hotopic.config import SecureConfigManager
+from hotopic.input_data import get_input_data
 
 logger = MyLogger()
 logger.configure("INFO")
 
-def hotopic_mining_pipeline():
+def hotopic_mining_pipeline(need_summary: bool = True):
     """
     热帖挖掘主流程
     """
@@ -20,10 +22,15 @@ def hotopic_mining_pipeline():
     # 5. 图算法生成，根据相似度构建图结构
     # 6. 话题生成，根据图的联通性生成话题描述
     cluster = Cluster()
-    input_data = []
+    input_data = get_input_data()
+    if not input_data:
+        logger.warning("没有获取到任何数据，无法进行话题挖掘。")
+        return
     cluster.load_input_data(input_data)
-    cluster_result = cluster.run()
+    cluster_result = cluster.run(need_summarize=need_summary)
     # 7. 话题发布，将生成的话题发布到社区
+
+    return cluster_result
 
 def hotopic_run_job():
     """周五凌晨执行的任务"""
@@ -33,6 +40,9 @@ def hotopic_run_job():
     logger.info(f"[{now}] - [{current_thread.ident}] 周五任务执行中...")
     # 这里添加你的实际任务代码
     # 比如数据备份、报告生成等操作
+    res = hotopic_mining_pipeline()
+
+
 
 def start_hotopic_schedule():
     """启动定时任务调度器"""
@@ -42,9 +52,9 @@ def start_hotopic_schedule():
     )
     schedule_time = config_manager.get_plain('timer', 'schedule_time')
     # 设置每周五凌晨00:00执行任务
-    schedule.every().friday.at(str(schedule_time)).do(hotopic_run_job)
+    # schedule.every().friday.at(str(schedule_time)).do(hotopic_run_job)
     # 测试时使用，每2分钟执行一次
-    # schedule.every(2).minutes.do(hotopic_run_job)
+    schedule.every(30).minutes.do(hotopic_run_job)
 
     logger.info("定时任务已启动，每周五凌晨00:00执行...")
     logger.info("按 Ctrl+C 退出程序")

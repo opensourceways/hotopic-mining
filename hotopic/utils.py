@@ -169,7 +169,7 @@ def get_embedding_model():
     embedding_model = OpenAIBackend(client, model_name, batch_size=32)
     return embedding_model
 
-def decode_topics(discuss_list, using_embedding=False):
+def decode_topics(discuss_list):
     """Decode topics from discuss list using a mapping."""
     topic_clusters = {}
     for discuss in discuss_list:
