@@ -355,19 +355,28 @@ class Cluster:
             merged_topics[topic_id] = topic_info
         return merged_topics
 
-    def run(self, need_summarize=True):
+    def run(self):
         """执行聚类流程"""
         self.try_append_topic()
         published_topics = decode_topics(self._published_discuss_list)
         if not published_topics:
             logger.warning("没有找到已发布的话题")
         clustered_topic = {}
-        if need_summarize:
-            self.graph_cluster(threshold=0.75)
-            summary = Summary()
-            clustered_topic = summary.summarize_pipeline(self._clustered_discuss_list)
+        self.graph_cluster(threshold=0.75)
+        summary = Summary()
+        clustered_topic = summary.summarize_pipeline(self._clustered_discuss_list)
         result_topic = self.merge_published_and_clustered_topics(published_topics, clustered_topic)
         return result_topic
+    
+    def run_closed_caculate(self):
+        """计算已关闭的讨论源"""
+        published_topics = decode_topics(self._published_discuss_list)
+        if not published_topics:
+            logger.warning("没有找到已发布的话题")
+
+        published_topics = self.caculate_closed_discuss_sync(published_topics)
+
+        return published_topics
 
     def get_clustered_discuss(self):
         """获取聚类后的讨论列表"""
