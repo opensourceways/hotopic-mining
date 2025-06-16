@@ -64,7 +64,7 @@ llm:
         - topic: 11"
 
 data:
-  soure_url: "https://example.com/data"
+  soure_url: "https://hotopic-data.test.osinfra.cn/openubmc/api/v1/data"
   publish_url: "https://example.com/data"
 
 timer:
