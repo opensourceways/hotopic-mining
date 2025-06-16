@@ -70,7 +70,7 @@ class Summary:
         """Summarize topics using a summarizer."""
         with tqdm(self._clustered_topics.items(), desc="📊 处理进度", unit="topic", bar_format="{l_bar}{bar:20}{r_bar}") as pbar:
             for topic, contents in pbar:
-                logger.info(f"\ntopic id: {topic}, cluster size: {len(contents["discussion"])}, titles:")
+                logger.info(f"\ntopic id: {topic}, cluster size: {len(contents['discussion'])}, titles:")
                 content_titles = ""
                 content_block = ""
                 for discuss in contents["discussion"]:
