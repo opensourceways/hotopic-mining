@@ -23,6 +23,9 @@ class MyLogger:
     def warning(self, message):
         self.logger.warning(f"WARNING: {message}")
 
+    def error(self, message):
+        self.logger.error(f"ERROR: {message}")
+
     def set_level(self, level):
         levels = ["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]
         if level in levels:
