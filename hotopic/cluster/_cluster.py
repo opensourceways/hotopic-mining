@@ -375,8 +375,9 @@ class Cluster:
             logger.warning("没有找到已发布的话题")
 
         published_topics = self.calculate_closed_discuss_sync(published_topics)
+        res_topics = self.encode_topics_out(published_topics)
 
-        return published_topics
+        return res_topics
 
     def get_clustered_discuss(self):
         """获取聚类后的讨论列表"""
