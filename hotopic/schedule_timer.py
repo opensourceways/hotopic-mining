@@ -89,7 +89,8 @@ def setup_schedule():
     # schedule.every().days.at(str(schedule_time)).do(run_threaded, hotopic_run_job)
     # schedule.every().hours.at(":07").do(run_threaded, hotopic_run_job)
     # 每4个小时执行一次 closed similarity 计算
-    schedule.every(1).hours.do(run_threaded, hotopic_closed_calculate_job)
+    # schedule.every(1).hours.do(run_threaded, hotopic_closed_calculate_job)
+    schedule.every().hours.at(":21").do(run_threaded, hotopic_closed_calculate_job)
 
 def start_hotopic_schedule():
     """启动定时任务调度器"""
