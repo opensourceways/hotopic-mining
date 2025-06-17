@@ -73,7 +73,7 @@ class Cluster:
         """获取所有讨论的内容列表"""
         return self.get_embedding_contexts(self._discuss_list)
     
-    def caculate_similarity(self, contexts_a, contexts_b, threshold=0.75):
+    def calculate_similarity(self, contexts_a, contexts_b, threshold=0.75):
         """计算讨论内容与已发布话题摘要的相似度"""
         similarity_results = []
         embedding_model = get_embedding_model()
@@ -99,7 +99,7 @@ class Cluster:
         if not topic_summaries:
             logger.warning("没有找到已发布的话题摘要")
             return
-        topic_similarities = self.caculate_similarity(discuss_contexts, topic_summaries, threshold=0.75)
+        topic_similarities = self.calculate_similarity(discuss_contexts, topic_summaries, threshold=0.75)
         if not topic_similarities:
             logger.warning("没有找到与已发布话题摘要相似的讨论内容")
             return
@@ -125,7 +125,7 @@ class Cluster:
         if not published_discuss_contexts:
             logger.warning("没有找到已发布的讨论内容")
             return
-        published_similarities = self.caculate_similarity(discuss_contexts, published_discuss_contexts)
+        published_similarities = self.calculate_similarity(discuss_contexts, published_discuss_contexts)
         if not published_similarities:
             logger.warning("没有找到与已发布讨论内容相似的讨论内容")
             return
@@ -139,7 +139,7 @@ class Cluster:
             # 校验结果的正确性
             # discuss_context = [discuss.get_cleaned_content()]
             # published_discuss_context = [published_discuss.get_cleaned_content()]
-            # si = self.caculate_similarity(discuss_context, published_discuss_context, threshold=0.75)
+            # si = self.calculate_similarity(discuss_context, published_discuss_context, threshold=0.75)
             # logger.info(f"讨论内容与已发布讨论内容相似度: {si}")
             discuss.set_summary(published_discuss.get_summary())
             self._published_discuss_list.append(discuss)
@@ -244,7 +244,7 @@ class Cluster:
                 discuss.set_summary(f"cluster-{i}")
                 self._clustered_discuss_list.append(discuss)
 
-    def caculate_closed_discuss_sync(self, published_topics):
+    def calculate_closed_discuss_sync(self, published_topics):
         """同步已关闭的讨论源至未关闭的讨论源"""
         for topic_id, topic_info in published_topics.items():
             discussion = topic_info.get("discussion", [])
@@ -262,7 +262,7 @@ class Cluster:
             open_contexts = self.get_embedding_contexts(open_discussion)
             closed_contexts = self.get_embedding_contexts(closed_discussion)
             # 计算未关闭讨论源与已关闭讨论源之间的相似度
-            topic_similarities = self.caculate_similarity(open_contexts, closed_contexts, threshold=0.75)
+            topic_similarities = self.calculate_similarity(open_contexts, closed_contexts, threshold=0.75)
             similarity_map = {}
             open_del_index = []
             closed_del_index = []
@@ -310,7 +310,7 @@ class Cluster:
             discuss_contexts = self.get_embedding_contexts(discussion)
             summary_contexts = [topic_info.get("summary", "")]
             # 讨论源与话题之间进行相似度计算
-            topic_similarities = self.caculate_similarity(discuss_contexts, summary_contexts, threshold=0.1)
+            topic_similarities = self.calculate_similarity(discuss_contexts, summary_contexts, threshold=0.1)
             for i, _, similarity in topic_similarities:
                 discussion[i].set_similarity(round(float(similarity), 3))
             
@@ -344,7 +344,7 @@ class Cluster:
         # TODO: 已发布话题的closed讨论源与该话题的其他讨论源计算相似度，看是否具有借鉴性
         published_topics = self.sorted_discuss_by_similarity(published_topics)
         clustered_topics = self.sorted_discuss_by_similarity(clustered_topics)
-        published_topics = self.caculate_closed_discuss_sync(published_topics)
+        published_topics = self.calculate_closed_discuss_sync(published_topics)
         clustered_topics = self.deal_clustered_topics(clustered_topics)
 
         clustered_topics = self.encode_topics_out(clustered_topics)
@@ -368,13 +368,13 @@ class Cluster:
         result_topic = self.merge_published_and_clustered_topics(published_topics, clustered_topic)
         return result_topic
     
-    def run_closed_caculate(self):
+    def run_closed_calculate(self):
         """计算已关闭的讨论源"""
         published_topics = decode_topics(self._published_discuss_list)
         if not published_topics:
             logger.warning("没有找到已发布的话题")
 
-        published_topics = self.caculate_closed_discuss_sync(published_topics)
+        published_topics = self.calculate_closed_discuss_sync(published_topics)
 
         return published_topics
 
