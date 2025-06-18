@@ -9,6 +9,7 @@ COPY requirements.txt .
 RUN pip3 install --no-cache-dir -r requirements.txt
 
 COPY . .
+RUN chown -R hotopic:hotopic /app
 
 USER hotopic
 
