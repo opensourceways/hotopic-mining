@@ -8,6 +8,7 @@ from hotopic.utils import MyLogger
 from hotopic.cluster import Cluster
 from hotopic.config import SecureConfigManager
 from hotopic.input_data import get_input_data
+from hotopic.output_data import post_output_data
 
 logger = MyLogger()
 logger.configure("INFO")
@@ -50,6 +51,10 @@ def hotopic_run_job():
     with open('tests/mock_data/clustered_run_2025_06_17.json', 'w') as discuss_file:
         json.dump(res, discuss_file, ensure_ascii=False, indent=4)
 
+    post_output_data(res)
+    now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    logger.info(f"[{now}] - [{native_tid}-{thread_id}] 周五任务完成。")
+
 def hotopic_closed_calculate_job():
     """关闭的话题，相关性计算"""
     # 单线程执行，可以不用加锁
@@ -84,13 +89,13 @@ def setup_schedule():
     tz = pytz.timezone("Asia/Shanghai")
     # 设置每周五凌晨00:00执行任务
     # schedule.every().friday.at(str(schedule_time)).do(hotopic_run_job).tag("cron").to(tz)
-    schedule.every().wednesday.at(str(schedule_time)).do(hotopic_run_job).tag("cron").to(tz)
+    # schedule.every().wednesday.at(str(schedule_time)).do(hotopic_run_job).tag("cron").to(tz)
     # 设置每天凌晨00:00执行任务
-    # schedule.every().days.at(str(schedule_time)).do(run_threaded, hotopic_run_job)
+    schedule.every().days.at(str(schedule_time)).do(run_threaded, hotopic_run_job)
     # schedule.every().hours.at(":07").do(run_threaded, hotopic_run_job)
     # 每4个小时执行一次 closed similarity 计算
-    # schedule.every(1).hours.do(run_threaded, hotopic_closed_calculate_job)
-    schedule.every().hours.at(":21").do(run_threaded, hotopic_closed_calculate_job)
+    schedule.every(4).hours.do(run_threaded, hotopic_closed_calculate_job)
+    # schedule.every().hours.at(":21").do(run_threaded, hotopic_closed_calculate_job)
 
 def start_hotopic_schedule():
     """启动定时任务调度器"""
