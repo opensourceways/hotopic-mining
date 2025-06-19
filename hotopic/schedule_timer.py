@@ -1,9 +1,9 @@
 import schedule # type: ignore
 import time
 import json
+import os
 import threading
-import pytz
-from datetime import datetime
+from datetime import datetime, timedelta
 from hotopic.utils import MyLogger
 from hotopic.cluster import Cluster
 from hotopic.config import SecureConfigManager
@@ -37,6 +37,23 @@ def hotopic_mining_pipeline(need_summary: bool = True):
 
     return cluster_result
 
+def delete_old_data(path_dir="tests/mock_data/"):
+    # 计算30天前的时间戳（以秒为单位）
+    time_threshold = (datetime.datetime.now() - datetime.timedelta(days=30)).timestamp()
+    # 遍历目录中的所有文件
+    for root, dirs, files in os.walk(path_dir):
+        for file in files:
+            file_path = os.path.join(root, file)
+            # 获取文件的最后修改时间
+            file_mtime = os.path.getmtime(file_path)
+            # 如果文件修改时间早于阈值，则删除
+            if file_mtime < time_threshold:
+                try:
+                    os.remove(file_path)
+                    logger.info(f"已删除: {file_path}")
+                except Exception as e:
+                    logger.error(f"删除失败 [{file_path}]: {str(e)}")
+
 def hotopic_run_job():
     """周五凌晨执行的任务"""
     # 单线程执行，可以不用加锁
@@ -48,12 +65,14 @@ def hotopic_run_job():
     # 比如数据备份、报告生成等操作
     res = hotopic_mining_pipeline()
 
-    with open('tests/mock_data/clustered_run_2025_06_17.json', 'w') as discuss_file:
+    day_str = datetime.now().strftime("%Y_%m_%d")
+    with open(f'tests/mock_data/clustered_run_{day_str}.json', 'w') as discuss_file:
         json.dump(res, discuss_file, ensure_ascii=False, indent=4)
 
     post_output_data(res)
     now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     logger.info(f"[{now}] - [{native_tid}-{thread_id}] 周五任务完成。")
+    delete_old_data()
 
 def hotopic_closed_calculate_job():
     """关闭的话题，相关性计算"""
@@ -68,7 +87,8 @@ def hotopic_closed_calculate_job():
     if not res:
         logger.warning("没有获取到任何数据，无法进行话题相关性计算。")
         return
-    with open('tests/mock_data/clustered_closed_2025_06_17.json', 'w') as discuss_file:
+    day_str = datetime.now().strftime("%Y_%m_%d")
+    with open(f'tests/mock_data/clustered_closed_{day_str}.json', 'w') as discuss_file:
         json.dump(res, discuss_file, ensure_ascii=False, indent=4)
     logger.info(f"[{now}] - [{native_tid}-{thread_id}] 关闭话题相关性计算完成。")
 
@@ -86,16 +106,21 @@ def setup_schedule():
         sensitive_config_path="conf/config.ini"
     )
     schedule_time = config_manager.get_plain('timer', 'schedule_time')
-    tz = pytz.timezone("Asia/Shanghai")
+    time_str = str(schedule_time)
+    logger.info(f"定时任务 hotopic_run_job 时间：{time_str}")
     # 设置每周五凌晨00:00执行任务
-    # schedule.every().friday.at(str(schedule_time)).do(hotopic_run_job).tag("cron").to(tz)
-    # schedule.every().wednesday.at(str(schedule_time)).do(hotopic_run_job).tag("cron").to(tz)
+    schedule.every().friday.at(time_str).do(hotopic_run_job)
+    # schedule.every().wednesday.at(str(schedule_time)).do(hotopic_run_job)
     # 设置每天凌晨00:00执行任务
-    schedule.every().days.at(str(schedule_time)).do(run_threaded, hotopic_run_job)
+    # schedule.every().days.at(str(schedule_time)).do(run_threaded, hotopic_run_job)
     # schedule.every().hours.at(":07").do(run_threaded, hotopic_run_job)
     # 每4个小时执行一次 closed similarity 计算
-    schedule.every(4).hours.do(run_threaded, hotopic_closed_calculate_job)
-    # schedule.every().hours.at(":21").do(run_threaded, hotopic_closed_calculate_job)
+    # schedule.every(4).hours.do(run_threaded, hotopic_closed_calculate_job)
+    day_str = datetime.now().strftime("%Y-%m-%d ")
+    dt = datetime.strptime(day_str + time_str, "%Y-%m-%d %H:%M")
+    result = dt + timedelta(hours=8) # 加 8 小时
+    closed_time_str = result.strftime("%H:%M")
+    schedule.every().hours.at(closed_time_str).do(run_threaded, hotopic_closed_calculate_job)
 
 def start_hotopic_schedule():
     """启动定时任务调度器"""
