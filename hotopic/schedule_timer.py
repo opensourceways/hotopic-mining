@@ -120,7 +120,7 @@ def setup_schedule():
     dt = datetime.strptime(day_str + time_str, "%Y-%m-%d %H:%M")
     result = dt + timedelta(hours=8) # 加 8 小时
     closed_time_str = result.strftime("%H:%M")
-    schedule.every().hours.at(closed_time_str).do(run_threaded, hotopic_closed_calculate_job)
+    schedule.every().days.at(closed_time_str).do(run_threaded, hotopic_closed_calculate_job)
 
 def start_hotopic_schedule():
     """启动定时任务调度器"""
