@@ -40,7 +40,7 @@ def publish_all_data(base_url, output_data):
         logger.info(f"Response Body:\n{response.text}")
         end_time = time.time()
         logger.info(f"Request time: {end_time - start_time}s")
-        return response.status_code == 200
+        return response.status_code == 200 or response.status_code == 201
         
     except requests.exceptions.RequestException as e:
         logger.error(f"Request failed: {e}")
