@@ -39,7 +39,7 @@ def hotopic_mining_pipeline(need_summary: bool = True):
 
 def delete_old_data(path_dir="tests/mock_data/"):
     # 计算30天前的时间戳（以秒为单位）
-    time_threshold = (datetime.datetime.now() - datetime.timedelta(days=30)).timestamp()
+    time_threshold = (datetime.now() - timedelta(days=30)).timestamp()
     # 遍历目录中的所有文件
     for root, dirs, files in os.walk(path_dir):
         for file in files:
@@ -118,7 +118,7 @@ def setup_schedule():
     # schedule.every(4).hours.do(run_threaded, hotopic_closed_calculate_job)
     day_str = datetime.now().strftime("%Y-%m-%d ")
     dt = datetime.strptime(day_str + time_str, "%Y-%m-%d %H:%M")
-    result = dt + timedelta(hours=8) # 加 8 小时
+    result = dt + timedelta(hours=4) # 加 8 小时
     closed_time_str = result.strftime("%H:%M")
     schedule.every().days.at(closed_time_str).do(run_threaded, hotopic_closed_calculate_job)
 
