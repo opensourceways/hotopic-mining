@@ -119,7 +119,11 @@ class Summary:
         new_reranked_content = {}
         new_index = 0
         for _, item in enumerate(reranked_content):
-            origin_id = item.get("topic")
+            try:
+                origin_id = item.get("topic")
+            except KeyError as e:
+                logger.error(f"KeyError: {e} in item: {item}")
+                return
             if not origin_id:
                 continue
             content = self._clustered_topics.get(str(origin_id), {})
