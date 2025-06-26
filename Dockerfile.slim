@@ -1,0 +1,35 @@
+FROM openeuler/openeuler:24.03 AS builder
+
+RUN yum install shadow-utils -y
+RUN groupadd -g 1001 hotopic \
+    && useradd -u 1001 -g hotopic -s /bin/bash -m hotopic
+
+# 设置时区环境变量
+ENV TZ=Asia/Shanghai
+# 创建时区软链接并写入时区名称
+RUN ln -sf /usr/share/zoneinfo/${TZ} /etc/localtime \
+    && echo ${TZ} > /etc/timezone
+WORKDIR /app
+RUN chown -R hotopic:hotopic /app
+
+FROM openeuler/distroless-pip:23.3.1-oe2403lts
+
+# 从 builder 阶段继承用户和组信息
+COPY --from=builder /etc/passwd /etc/passwd
+COPY --from=builder /etc/group /etc/group
+# 从 builder 阶段继承时区配置
+COPY --from=builder /etc/localtime /etc/localtime
+COPY --from=builder /etc/timezone /etc/timezone
+# 保持权限
+WORKDIR /app
+COPY --chown=hotopic:hotopic --from=builder /app /app
+
+COPY --from=builder /usr/lib64/libstdc++.so.* /usr/lib64/
+COPY . .
+RUN update-ca-trust && \
+    pip install --no-cache-dir -r requirements.txt
+
+RUN ls /usr/lib64/
+
+USER hotopic
+CMD ["python3", "-m", "hotopic.main"]
