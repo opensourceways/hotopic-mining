@@ -66,6 +66,7 @@ llm:
 data:
   soure_url: "https://hotopic-data.test.osinfra.cn/openubmc/api/v1/data"
   publish_url: "https://hotopic-data.test.osinfra.cn/internal/v1/hot-topic/openubmc/to-review"
+  closed_url: "https://hotopic-data.test.osinfra.cn/internal/v1/hot-topic/openubmc/solution"
 
 timer:
   schedule_time: "00:00"

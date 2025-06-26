@@ -58,11 +58,27 @@ def post_output_data(output_data):
     else:
         logger.error("发布失败")
 
+def post_solution_data(output_data):
+    config = SecureConfigManager(
+        plain_config_path="conf/config.yaml",
+        sensitive_config_path="conf/config.ini"
+    )
+    base_url = config.get_plain('data','closed_url')
+    res = publish_all_data(base_url, output_data)
+    if res:
+        logger.info("发布成功")
+    else:
+        logger.error("发布失败")    
+
 if __name__ == "__main__":
-    base_url = 'https://hotopic-data.test.osinfra.cn/internal/v1/hot-topic/openubmc/to-review'
-    with open('tests/mock_data/clustered_run_2025_06_17.json', 'r') as clustered_file:
+    # base_url = 'https://hotopic-data.test.osinfra.cn/internal/v1/hot-topic/openubmc/to-review'
+    # with open('tests/mock_data/clustered_run_2025_06_17.json', 'r') as clustered_file:
+    #     clustered_data = json.load(clustered_file)
+    # res = publish_all_data(base_url, clustered_data)
+    base_url = 'https://hotopic-data.test.osinfra.cn/internal/v1/hot-topic/openubmc/solution'
+    with open('tests/mock_data/clustered_closed_2025_06_24.json', 'r') as clustered_file:
         clustered_data = json.load(clustered_file)
-    res = publish_all_data(base_url, clustered_data)
+    res = post_solution_data(clustered_data)
     if res:
         logger.info("发布成功")
     else:
