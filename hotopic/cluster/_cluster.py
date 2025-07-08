@@ -41,7 +41,8 @@ class Cluster:
                 topic_summary=discuss.get('topic_summary', ''),
                 source_type=discuss.get('source_type', 'unknown'),
                 source_id=discuss.get('source_id', ''),
-                source_closed=discuss.get('source_closed', False)
+                source_closed=discuss.get('source_closed', False),
+                source_deleted=discuss.get('source_deleted', False)
             )
             if discuss_data.get_id() is None:
                 logger.warning(f"讨论数据缺少ID: {discuss}")

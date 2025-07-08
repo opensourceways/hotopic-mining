@@ -52,8 +52,8 @@ class DiscussData:
     _source_closed = False
     _similarity = None
     _closed_similarity = None
-    def __init__(self, id, title, url, cleaned_data, created_at,
-                 topic_summary, source_type, source_id, source_closed=False):
+    def __init__(self, id, title, url, cleaned_data, created_at, topic_summary,
+                 source_type, source_id, source_closed=False, source_deleted=False):
         self._id = id
         self._title = title
         self._url = url
@@ -64,8 +64,10 @@ class DiscussData:
         self._source_type = source_type
         self._source_id = source_id
         self._source_closed = source_closed
+        self._source_deleted = source_deleted
         self._similarity = 0.0
         self._closed_similarity = 0.0
+        self._max_length = 2048  # 最大内容长度
     
     def get_summary(self):
         return self._topic_summary
@@ -96,10 +98,10 @@ class DiscussData:
 
     def get_cleaned_content(self):
         content = f"- title: {self._title}\n- abstract: {self._cleaned_data}"
-        return content[:768]
+        return content[:self._max_length]
     
     def get_content(self):
-        return self._cleaned_data[:1024]
+        return self._cleaned_data[:self._max_length]
     
     def set_similarity(self, similarity):
         """设置相似度"""
@@ -133,6 +135,7 @@ class DiscussData:
                 "source_type": self._source_type,
                 "source_id": self._source_id,
                 "source_closed": self._source_closed,
+                "source_deleted": self._source_deleted,
                 "cosine": self._similarity,
                 "closed_cosine": self._closed_similarity
             }
@@ -147,6 +150,7 @@ class DiscussData:
             "source_type": self._source_type,
             "source_id": self._source_id,
             "source_closed": self._source_closed,
+            "source_deleted": self._source_deleted,
             "cosine": self._similarity,
             "closed_cosine": self._closed_similarity
         }

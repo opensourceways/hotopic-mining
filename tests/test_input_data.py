@@ -8,6 +8,7 @@ def test_fetch_all_data():
     )
     base_url = config.get_plain('data', 'soure_url')
     res = fetch_all_data(base_url)
+    # print(res[0])
     assert res is not None
     assert len(res) > 0
     assert isinstance(res, list)

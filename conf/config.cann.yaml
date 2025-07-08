@@ -51,8 +51,8 @@ llm:
         - topic: 2"
 
 data:
-  soure_url: "https://hotopic-data.test.osinfra.cn/cann/api/v1/data"
-  publish_url: "https://hotopic-data.test.osinfra.cn/internal/v1/hot-topic/cann/to-review"
-  closed_url: "https://hotopic-data.test.osinfra.cn/internal/v1/hot-topic/cann/solution"
+  soure_url: "http://cann-hotopic-data-clean-service.community-hot-topic:8080/api/v1/data"
+  publish_url: "http://hotopic-server-service.community-hot-topic:8080/internal/v1/hot-topic/cann/to-review"
+  closed_url: "http://hotopic-server-service.community-hot-topic:8080/internal/v1/hot-topic/cann/solution"
 timer:
   schedule_time: "02:00"
