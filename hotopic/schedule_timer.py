@@ -8,7 +8,7 @@ from hotopic.utils import MyLogger
 from hotopic.cluster import Cluster
 from hotopic.config import SecureConfigManager
 from hotopic.input_data import get_input_data
-from hotopic.output_data import post_output_data
+from hotopic.output_data import post_output_data, post_solution_data
 
 logger = MyLogger()
 logger.configure("INFO")
@@ -90,6 +90,8 @@ def hotopic_closed_calculate_job():
     day_str = datetime.now().strftime("%Y_%m_%d")
     with open(f'tests/mock_data/clustered_closed_{day_str}.json', 'w') as discuss_file:
         json.dump(res, discuss_file, ensure_ascii=False, indent=4)
+
+    post_solution_data(res)
     logger.info(f"[{now}] - [{native_tid}-{thread_id}] 关闭话题相关性计算完成。")
 
 
