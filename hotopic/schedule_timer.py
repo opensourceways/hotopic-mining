@@ -8,7 +8,7 @@ from hotopic.utils import MyLogger
 from hotopic.cluster import Cluster
 from hotopic.config import SecureConfigManager
 from hotopic.input_data import get_input_data
-from hotopic.output_data import post_output_data
+from hotopic.output_data import post_output_data, post_solution_data
 
 logger = MyLogger()
 logger.configure("INFO")
@@ -90,6 +90,8 @@ def hotopic_closed_calculate_job():
     day_str = datetime.now().strftime("%Y_%m_%d")
     with open(f'tests/mock_data/clustered_closed_{day_str}.json', 'w') as discuss_file:
         json.dump(res, discuss_file, ensure_ascii=False, indent=4)
+
+    post_solution_data(res)
     logger.info(f"[{now}] - [{native_tid}-{thread_id}] 关闭话题相关性计算完成。")
 
 
@@ -110,9 +112,8 @@ def setup_schedule():
     logger.info(f"定时任务 hotopic_run_job 时间：{time_str}")
     # 设置每周五凌晨00:00执行任务
     schedule.every().friday.at(time_str).do(hotopic_run_job)
-    # schedule.every().wednesday.at(str(schedule_time)).do(hotopic_run_job)
     # 设置每天凌晨00:00执行任务
-    # schedule.every().days.at(str(schedule_time)).do(run_threaded, hotopic_run_job)
+    # schedule.every().days.at(str("17:09")).do(run_threaded, hotopic_run_job)
     # 每4个小时执行一次 closed similarity 计算
     # schedule.every(4).hours.do(run_threaded, hotopic_closed_calculate_job)
     day_str = datetime.now().strftime("%Y-%m-%d ")
