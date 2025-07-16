@@ -70,6 +70,8 @@ def hotopic_run_job():
         json.dump(res, discuss_file, ensure_ascii=False, indent=4)
 
     post_output_data(res)
+    logger.info("话题挖掘任务同步数据完成，开始推荐相关话题...")
+    post_solution_data(res)
     now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     logger.info(f"[{now}] - [{native_tid}-{thread_id}] 周五任务完成。")
     delete_old_data()
