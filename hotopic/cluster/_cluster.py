@@ -346,7 +346,9 @@ class Cluster:
         published_topics = self.sorted_discuss_by_similarity(published_topics)
         clustered_topics = self.sorted_discuss_by_similarity(clustered_topics)
         published_topics = self.calculate_closed_discuss_sync(published_topics)
-        clustered_topics = self.deal_clustered_topics(clustered_topics)
+        # 之前未聚类的话题未做相似度计算，现在聚类后也做推送话题的计算
+        # clustered_topics = self.deal_clustered_topics(clustered_topics)
+        clustered_topics = self.calculate_closed_discuss_sync(clustered_topics)
 
         clustered_topics = self.encode_topics_out(clustered_topics)
         merged_topics = self.encode_topics_out(published_topics)
