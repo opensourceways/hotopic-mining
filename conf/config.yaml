@@ -52,7 +52,7 @@ llm:
 
 data:
   soure_url: "https://hotopic-data.test.osinfra.cn/cann/api/v1/data"
-  publish_url: "https://hotopic-data.test.osinfra.cn/internal/v1/hot-topic/cann/to-review"
+  publish_url: "https://hotopic-data.test.osinfra.cn/internal/v1/topic-review/cann"
   closed_url: "https://hotopic-data.test.osinfra.cn/internal/v1/hot-topic/cann/solution"
 timer:
   schedule_time: "02:00"

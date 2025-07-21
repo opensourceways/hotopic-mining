@@ -76,7 +76,7 @@ if __name__ == "__main__":
     #     clustered_data = json.load(clustered_file)
     # res = publish_all_data(base_url, clustered_data)
     # base_url = 'https://hotopic-data.test.osinfra.cn/internal/v1/hot-topic/openubmc/solution'
-    with open('tests/mock_data/clustered_closed_2025_06_24.json', 'r') as clustered_file:
+    with open('tests/mock_data/clustered_run_2025_07_21.json', 'r') as clustered_file:
         clustered_data = json.load(clustered_file)
     # post_output_data(clustered_data)
     post_solution_data(clustered_data)
