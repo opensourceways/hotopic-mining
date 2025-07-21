@@ -115,7 +115,7 @@ def setup_schedule():
     # 设置每周五凌晨00:00执行任务
     schedule.every().friday.at(time_str).do(hotopic_run_job)
     # 设置每天凌晨00:00执行任务
-    # schedule.every().days.at(str("17:09")).do(run_threaded, hotopic_run_job)
+    # schedule.every().days.at(str("10:17")).do(run_threaded, hotopic_run_job)
     # 每4个小时执行一次 closed similarity 计算
     # schedule.every(4).hours.do(run_threaded, hotopic_closed_calculate_job)
     day_str = datetime.now().strftime("%Y-%m-%d ")
