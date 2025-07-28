@@ -288,6 +288,7 @@ class Cluster:
                         continue
                     open_discussion_to_closed = open_discussion[open_index]
                     open_discussion_to_closed.set_closed_similarity(round(float(similarity), 3))
+                    logger.info(f"closed url: {closed_discussion_cluster[0].get_url()}, open url: {open_discussion_to_closed.get_url()}, similarity: {similarity}")
                     closed_discussion_cluster.append(open_discussion_to_closed)
                 discussion_list.append(closed_discussion_cluster)
 
