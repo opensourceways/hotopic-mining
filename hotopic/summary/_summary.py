@@ -121,7 +121,7 @@ class Summary:
         for _, item in enumerate(reranked_content):
             try:
                 origin_id = item.get("topic")
-            except KeyError as e:
+            except Exception as e:
                 logger.error(f"KeyError: {e} in item: {item}")
                 return
             if not origin_id:
